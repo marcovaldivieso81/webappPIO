@@ -2,7 +2,11 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+# MIGRACIONES
+migrations
+# MEDIA Y ESTATICOS
+media
+/static/
 # C extensions
 *.so
 
