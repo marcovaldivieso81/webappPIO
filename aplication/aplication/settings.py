@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import environ
+
+env=environ.Env()
+environ.Env.read_env()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'migracion',
+    'seguridad',
+    'maestra',
+    'venta'
 ]
 
 MIDDLEWARE = [
@@ -75,8 +84,12 @@ WSGI_APPLICATION = 'aplication.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': env.str('DATA_BASE_ENGINE'),
+        'NAME': env.str('DATA_BASE_NAME'),
+        'USER': env.str('DATA_BASE_USER'),
+        'PASSWORD':env.str('DATA_BASE_PASSWORD'),
+        'HOST': env.str('DATA_BASE_HOST'),
+        'PORT': env.int('DATA_BASE_PORT'),
     }
 }
 
