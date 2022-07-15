@@ -1,6 +1,20 @@
 from django.db import models
 
 # Create your models here.
+class Sincronizacion(models.Model):
+    Abreviatura=models.CharField(max_length=20)
+    Descripcion=models.CharField(max_length=500)
+    FechaInicio=models.DateField()
+    FechaFin=models.DateField()
+    Horas=models.IntegerField()
+    Observacion=models.CharField(max_length=500)
+    FechaCreacion=models.DateTimeField(auto_now_add=True)
+    UsuarioCreacion=models.CharField(max_length=100)
+    FechaModificacion=models.DateTimeField(auto_now=True)
+    UsuarioModificacion=models.CharField(max_length=100)
+    Eliminado=models.BooleanField()
+
+
 
 class CitaSquare(models.Model):
     IdRef=models.CharField(max_length=30)
