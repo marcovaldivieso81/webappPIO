@@ -32,7 +32,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+## modelo usuario
+AUTH_USER_MODEL="seguridad.Usuario"
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,10 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'migracion',
-    'seguridad',
-    'maestra',
-    'venta'
+    'apps.migracion',
+    'apps.seguridad',
+    'apps.maestra',
+    'apps.venta'
 ]
 
 MIDDLEWARE = [
@@ -85,11 +86,12 @@ WSGI_APPLICATION = 'aplication.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': env.str('DATA_BASE_ENGINE'),
-        'NAME': env.str('DATA_BASE_NAME'),
-        'USER': env.str('DATA_BASE_USER'),
-        'PASSWORD':env.str('DATA_BASE_PASSWORD'),
-        'HOST': env.str('DATA_BASE_HOST'),
-        'PORT': env.int('DATA_BASE_PORT'),
+        'NAME': BASE_DIR / 'db.sqlite3',
+        #'NAME': env.str('DATA_BASE_NAME'),
+        #'USER': env.str('DATA_BASE_USER'),
+        #'PASSWORD':env.str('DATA_BASE_PASSWORD'),
+        #'HOST': env.str('DATA_BASE_HOST'),
+        #'PORT': env.int('DATA_BASE_PORT'),
     }
 }
 
