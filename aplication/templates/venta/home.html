@@ -1,0 +1,149 @@
+{% extends "aplication/base.html" %}
+{% load static %}
+{% block titulo %}
+Ventas
+{% endblock%}
+
+{% block body %}
+            <!-- BARRA NAVEGACION -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-danger fixed-top" style="z-index:3000">
+                <div class="container-fluid">
+                    <div class="text-light">
+                        P
+                    </div>
+                    <div class="" id="navbarSupportedContent">
+                        <a class="nav-link link-light px-0 align-middle" href="{% url 'logout' %}">
+                            <i class="fs-4 bi-door-open"></i>
+                            <span class="d-none d-sm-inline mx-1">Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+            <!-- FIN BARRA NAVEGACION -->
+<div class="container-fluid position-relative">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-danger ">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <div class=" mx-1 fixed-top mt-5">
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 mt-3 align-items-sm-start" id="menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link link-light align-middle px-0">
+                            <i class="fs-4 bi-house"></i>
+                            <span class="ms-1 d-none d-md-inline">Home</span>
+                        </a>
+                    </li>
+                        <a href="#submenu3" data-bs-toggle="collapse" class="nav-link link-light px-0 align-middle">
+                            <i class="fs-4 bi-grid"></i>
+                            <span class="ms-1 d-none d-md-inline">Sales</span> </a>
+                            <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                            <li class="w-100">
+                                <a href="#" class="nav-link link-light px-0">
+                                    <i class="fs-4 bi-receipt"></i>
+                                    <span class="d-none d-md-inline">Order</span></a>
+                            </li>
+                            </ul>
+                    </li>
+                    <li>
+                        <a href="{% url 'admin:index'  %}" class="nav-link link-light px-0 align-middle">
+                            <i class="fs-4 bi-gear"></i>
+                            <span class="ms-1 d-none d-md-inline">Admin Panel</span> </a>
+                    </li>
+                </ul>
+            </div>
+                </div>
+            </div>
+        <div class="col py-3 mt-5 " style="z-index:2000">
+            <section class="container">
+                <h1>Orders</h1>
+<form class="row align-items-end ">
+    
+    <div class="col-2 form-group">
+        <label>Order date</label>
+        <input type="date" class="form-control">
+    </div>
+    <div class="col-1">
+        <label>to</label>
+    </div>
+    <div class="col-2">
+        <input type="date" class="form-control">
+    </div>
+
+    <div class="col-4">
+         <div class="input-group">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="basic-addon1">
+					<i class="bi bi-search"></i>
+				</span>
+			</div>
+			<input type="search" class="form-control">
+		</div>
+    </div>
+   
+    <div class="col-1 form-group-prended">
+        <button type="submit" class="btn btn-warning">
+           Export
+        </button>
+    </div>
+    <div class="col-1 form-group">
+        <button type="submit" class="btn btn-success">Detail</button>
+    </div>
+     <div class="col-1 form-group">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+
+<table class="table mt-5">
+    <thead class="table-dark" style="--bs-table-bg:#dc3545;--bs-table-border-color:#dc3545">
+      <tr>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Hour</th>
+        <th>Delivery</th>
+        <th>Cancel</th>
+        <th>Client/Tel/Direccion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>10/07/2022</td>
+        <td style="color:green" ><i class="bi bi-circle-fill"></i></td>
+        <td>11:00 am</td>
+         <td><i class="bi bi-check-circle-fill"></i></td>
+        <td></i></td>
+        <td>Pepito Perez/95789432/Avenida 65 </td>
+      </tr>
+      <tr>
+        <td>10/07/2022</td>
+        <td  style="color:Gold"><i class="bi bi-circle-fill"></i></td>
+        <td>11:00 am</td>
+         <td><i class="bi bi-check-circle-fill"></i></td>
+        <td></i></td>
+        <td>Pepito Perez/95789432/Avenida 65 </td>
+      </tr>
+      <tr>
+        <td>10/07/2022</td>
+        <td style="color:red"><i class="bi bi-circle-fill"></i></td>
+        <td>11:00 am</td>
+         <td><i class="bi bi-check-circle-fill"></i></td>
+        <td  style="color:red"><i class="bi bi-check-circle-fill"></i></td>
+        <td>Pepito Perez/95789432/Avenida 65 </td>
+      </tr>
+      <tr>
+        <td>10/07/2022</td>
+        <td style="color:red"><i class="bi bi-circle-fill"></i></td>
+        <td>11:00 am</td>
+         <td><i class="bi bi-check-circle-fill"></i></td>
+        <td style="color:red"><i class="bi bi-check-circle-fill"></i></td>
+        <td>Pepito Perez/95789432/Avenida 65 </td>
+      </tr>
+    </tbody>
+  </table>
+
+</form>
+            </section>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
