@@ -25,7 +25,7 @@ class UsuarioManager(BaseUserManager):
         return user
 
 class Usuario(AbstractBaseUser):
-    username = models.CharField('Nombre de usuario',primary_key= True, max_length=100)
+    username = models.CharField('Usuario',primary_key= True, max_length=100)
     email = models.EmailField('Correo Electrónico', max_length=254,unique = True)
     nombres = models.CharField('Nombres', max_length=200, blank = True, null = True)
     apellido_paterno = models.CharField('Apellido Paterno', max_length=200,blank = True, null = True)

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import environ
+import os
 
 env=environ.Env()
 environ.Env.read_env()
@@ -136,3 +137,8 @@ STATICFILES_DIRS =(os.path.join(BASE_DIR,'static'),)
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_URL='login'
+LOGIN_REDIRECT_URL='venta'
+LOGOUT_REDIRECT_URL='login'
+
+
