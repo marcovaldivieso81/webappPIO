@@ -10,4 +10,4 @@ urlpatterns=[
     path('logout/',LogoutView.as_view(template_name='account/home.html'),name='logout'),
 
     ]
- 
+

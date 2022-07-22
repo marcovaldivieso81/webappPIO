@@ -1,0 +1,29 @@
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <div class=" mx-1 fixed-top mt-5">
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 mt-3 align-items-sm-start" id="menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link link-light align-middle px-0">
+                            <i class="fs-4 bi-house"></i>
+                            <span class="ms-1 d-none d-md-inline">Home</span>
+                        </a>
+                    </li>
+                        <a href="#submenu3" data-bs-toggle="collapse" class="nav-link link-light px-0 align-middle">
+                            <i class="fs-4 bi-grid"></i>
+                            <span class="ms-1 d-none d-md-inline">Sales</span> </a>
+                            <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                            <li class="w-100">
+                                <a href="#" class="nav-link link-light px-0">
+                                    <i class="fs-4 bi-receipt"></i>
+                                    <span class="d-none d-md-inline">Order</span></a>
+                            </li>
+                            </ul>
+                    </li>
+                    <li>
+                        <a href="{% url 'admin:index'  %}" class="nav-link link-light px-0 align-middle">
+                            <i class="fs-4 bi-gear"></i>
+                            <span class="ms-1 d-none d-md-inline">Admin Panel</span> </a>
+                    </li>
+                </ul>
+            </div>
+                </div>
+            </div>

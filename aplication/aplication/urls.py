@@ -21,3 +21,5 @@ urlpatterns = [
     path('',include('apps.seguridad.urls')),
     path('ventas',include('apps.venta.urls')),
 ]
+
+handler404="apps.seguridad.views.handle_not_found"
