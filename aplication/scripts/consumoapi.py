@@ -67,8 +67,8 @@ def obtiene_lista_citas(inicio,fin):
             }
         lista_citas.append(diccionario_cita)
         print('procesando datos ...')
-        print(diccionario_cita)
-        print('-------------------------------------')
+        #print(diccionario_cita)
+        #print('-------------------------------------')
     return lista_citas
 
-print(obtiene_lista_citas("2022-07-26T14:00:00Z","2022-07-26T23:59:00Z"))
+#print(obtiene_lista_citas("2022-07-26T14:00:00Z","2022-07-26T23:59:00Z"))
