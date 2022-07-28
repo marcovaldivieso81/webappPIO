@@ -21,7 +21,7 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+#print(BASE_DIR)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-3%lle9y32d&@nlhqjapiwi+*9#g4o68=6zu@(z5-t+kx0w^1fy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost']
 
@@ -86,12 +86,12 @@ WSGI_APPLICATION = 'aplication.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': env.str('DATA_BASE_ENGINE'),
-        'NAME': BASE_DIR / 'db.sqlite3',
-        #'NAME': env.str('DATA_BASE_NAME'),
-        #'USER': env.str('DATA_BASE_USER'),
-        #'PASSWORD':env.str('DATA_BASE_PASSWORD'),
-        #'HOST': env.str('DATA_BASE_HOST'),
-        #'PORT': env.int('DATA_BASE_PORT'),
+        #'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': env.str('DATA_BASE_NAME'),
+        'USER': env.str('DATA_BASE_USER'),
+        'PASSWORD':env.str('DATA_BASE_PASSWORD'),
+        'HOST': env.str('DATA_BASE_HOST'),
+        'PORT': env.int('DATA_BASE_PORT'),
     }
 }
 
@@ -129,8 +129,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
-STATIC_URL = 'static/'
+#STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS =(os.path.join(BASE_DIR,'static'),)
 # Default primary key field type
