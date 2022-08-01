@@ -3,35 +3,41 @@ from django.db import models
 # Create your models here.
 
 class Articulo(models.Model):
-    IdArticulo=models.AutoField(primary_key=True)
-    IdArticuloSquare=models.CharField(max_length=20)
-    Codigo=models.IntegerField()
+    #IdArticulo=models.AutoField(primary_key=True)
+    IdArticuloSquare=models.CharField(max_length=50,primary_key=True)
     Descripcion=models.CharField(max_length=500)
-    Nota1=models.CharField(max_length=500)
-    Nota2=models.CharField(max_length=500)
-    Nota3=models.CharField(max_length=500)
-    FechaCreacion=models.DateTimeField(auto_now_add=True)
-    UsuarioCreacion=models.CharField(max_length=100)
-    FechaModificacion=models.DateTimeField(auto_now=True)
-    UsuarioModificacion=models.CharField(max_length=100)
-    Eliminado=models.BooleanField()
+    Codigo=models.IntegerField(null=True,blank=True)
+    Nota1=models.CharField(max_length=500,null=True,blank=True)
+    Nota2=models.CharField(max_length=500,null=True,blank=True)
+    Nota3=models.CharField(max_length=500,null=True,blank=True)
+    FechaCreacion=models.DateTimeField(auto_now_add=True,null=True)
+    UsuarioCreacion=models.CharField(max_length=100,null=True,blank=True)
+    FechaModificacion=models.DateTimeField(auto_now=True,null=True)
+    UsuarioModificacion=models.CharField(max_length=100,null=True,blank=True)
+    #Eliminado=models.BooleanField()
+    def __str__(self):
+        return self.Descripcion
+
 
 class Variante(models.Model):
-    IdVariante=models.AutoField(primary_key=True)
-    IdVarianteSquare=models.CharField(max_length=20)
-    IdArticulo=models.IntegerField()
-    Codigo=models.IntegerField()
+    #IdVariante=models.AutoField(primary_key=True)
+    IdVarianteSquare=models.CharField(max_length=100,primary_key=True)
+    #IdArticulo=models.IntegerField()
     Descripcion=models.CharField(max_length=500)
-    Nota1=models.CharField(max_length=500)
-    Nota2=models.CharField(max_length=500)
-    Nota3=models.CharField(max_length=500)
-    IdMoneda=models.IntegerField()
+    IdArticulo = models.ForeignKey(Articulo, on_delete=models.CASCADE)
     PrecioUnitario=models.DecimalField(max_digits=20,decimal_places=5)
-    FechaCreacion=models.DateTimeField(auto_now_add=True)
-    UsuarioCreacion=models.CharField(max_length=100)
-    FechaModificacion=models.DateTimeField(auto_now=True)
-    UsuarioModificacion=models.CharField(max_length=100)
-    Eliminado=models.BooleanField()
+    IdMoneda=models.CharField(max_length=10)
+    Codigo=models.IntegerField(null=True,blank=True) 
+    Nota1=models.CharField(max_length=500,null=True,blank=True)
+    Nota2=models.CharField(max_length=500,null=True,blank=True)
+    Nota3=models.CharField(max_length=500,null=True,blank=True)
+    FechaCreacion=models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    UsuarioCreacion=models.CharField(max_length=100,null=True,blank=True)
+    FechaModificacion=models.DateTimeField(auto_now=True,null=True,blank=True)
+    UsuarioModificacion=models.CharField(max_length=100,null=True,blank=True)
+    #Eliminado=models.BooleanField()
+    def __str__(self):
+        return self.IdArticulo.Descripcion+' -> '+self.Descripcion
 
 class Cliente(models.Model):
     IdCliente=models.AutoField(primary_key=True)
