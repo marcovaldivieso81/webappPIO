@@ -2,7 +2,7 @@ import asyncio
 from pathlib import Path
 import psycopg2
 import environ
-from consumoapi import square_bookings, square_customer, square_articulos
+from .consumoapi import square_bookings, square_customer, square_articulos
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 env=environ.Env()
@@ -19,6 +19,7 @@ def conexion():
 
 async def obtiene_lista_citas(inicio,fin):
     citas_square=square_bookings(inicio,fin)
+    #print(citas_square)
     lista_citas=[]
     try:
         connection=conexion()
@@ -38,8 +39,11 @@ async def obtiene_lista_citas(inicio,fin):
             'Nota' : cita.get('seller_note','sin seller note'),
             'Servicios':cita['appointment_segments'][0]['service_variation_version'],
             'Fecha' : cita['start_at'][0:10],
-            'Hora' : cita['start_at'][-9:-1]
-                }
+            'Hora' : cita['start_at'][-9:-1],
+            'Observacion':' ',
+            'Estado': 'pendiente',
+            'Cancelado':False
+            }
             lista_citas.append(datos_cita)
 
             #datos_cita.update(datos_customer)
@@ -47,12 +51,18 @@ async def obtiene_lista_citas(inicio,fin):
             #lista_citas.append(datos_cita)
         connection.close()       
         datos_customer = await asyncio.gather(*(square_customer(datos_cita['customer_id']) for datos_cita in lista_citas))
+        citas_exitosas = []
         for i, datos_cita in enumerate(lista_citas):
-            datos_cita.update(datos_customer[i])
+            if datos_customer[i][0]:
+                datos_cita.update(datos_customer[i][1])
+                citas_exitosas.append(datos_cita)
+            else:
+                ## guardo en base datos
+                pass
     except Exception as ex:
         raise
         #print(ex)
-    return lista_citas
+    return citas_exitosas
 
 def guarda_citas(inicio,fin):
     lista = asyncio.run(obtiene_lista_citas(inicio,fin))#    
@@ -73,7 +83,9 @@ def guarda_citas(inicio,fin):
                     "Nota",
                     "Servicios",
                     "Version",
-                    "Direccion")
+                    "Direccion",
+                    "Observacion"
+                    )
                     VALUES (
                     %(IdRef)s,
                     %(Nombre)s,
@@ -84,14 +96,51 @@ def guarda_citas(inicio,fin):
                     %(Nota)s,
                     %(Servicios)s,
                     %(Version)s,
-                    %(Direccion)s)''',item)
+                    %(Direccion)s,
+                    %(Observacion)s
+                    )''',item)
                 connection.commit() 
                 print('Cargando dato ...')
+                ## ACA SE ACTUALIZA LOS PEDIDOS
+                cursor.execute('''INSERT INTO 
+                        venta_pedido(
+                        "IdPedidoSquare",
+                        "NombreCliente",
+                        "Telefono",
+                        "Direccion",
+                        "Servicio_id",
+                        "Notas",
+                        "Observacion",
+                        "Fecha",
+                        "Hora",
+                        "Estado_id",
+                        "Cancelado"
+                        ) 
+                        VALUES (
+                        %(IdRef)s, 
+                        %(Nombre)s,
+                        %(Telefono)s,
+                        %(Direccion)s,
+                        %(Servicios)s,
+                        %(Nota)s,
+                        %(Observacion)s,
+                        %(Fecha)s,
+                        %(Hora)s,
+                        %(Estado)s,
+                        %(Cancelado)s
+                        ) 
+                        ON CONFLICT (
+                        "IdPedidoSquare") 
+                        DO UPDATE SET 
+                        "Notas"  = venta_pedido."Notas"
+                        ''',item)
+                #################################
             connection.close()
             print('Guardado de datos exitoso')
             print('Conexion cerrada a db')
         except Exception as ex:
-            print(ex)
+            #print(ex)
+            raise
     else:
         print('No hay datos nuevos')
 
@@ -158,7 +207,9 @@ def guarda_articulos():
     except Exception as ex:
         print(ex)
 
+
+
 #guarda_articulos()
-guarda_citas("2022-07-27T14:00:00Z","2022-07-27T17:59:00Z")
+#guarda_citas("2022-08-08T00:00:00Z","2022-08-10T23:59:00Z")
 #obtiene_lista_citas("2022-07-27T14:00:00Z","2022-07-27T17:59:00Z")
 

@@ -6,53 +6,262 @@ Ventas
 
 {% block body %}
 {% include "venta/navbar.html" %}
+
 <div class="container-fluid position-relative">
+
     <div class="row flex-nowrap">
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-danger ">
 		{% include "venta/sidebar.html" %}
-        <div class="col py-3 mt-5 " style="z-index:2000">
+
+    <!-- INICIA MODAL SINC -->
+<div class="modal fade mt-5" id="sincModal" tabindex="-1" aria-labelledby="sincModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="exampleModalLabel">Synchronization</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post">
+		{% csrf_token %}
+        <div class="modal-body">
+            <div class="col-sm-12 col-xl-12  form-group my-2">
+                <label>Order date</label>
+                <input id="FechaInicialSinc" name="FechaInicial" type="date" class="form-control" readonly>
+            </div>
+            <div class=" col-sm-12 col-xl-12 my-2">
+                <label>to</label>
+                <input id="FechaFinalSinc" name="FechaFinal" type="date" class="form-control">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button name="nombre" type="submit" class="btn btn-success" value="sinc">
+                <i class="bi bi-arrow-clockwise"></i>
+                Sinc
+            </button>
+         </div>
+      </form>
+      
+    </div>
+  </div>
+</div>
+    <!-- FIN MODAL SINC -->
+    <!-- INICIA MODAL DETAIL -->
+<div class="modal modal-lg fade mt-5" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="exampleModalLabel">Order</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <div class="modal-footer pb-0">
+            <button type="submit" name="nombre" value="addproduct" class="btn btn-success">
+                <i class="bi bi-save"></i>
+                Save
+            </button>
+        </div>
+        <div class="modal-body pt-0">
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Summary</button>
+    
+    <form method="post">
+    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Product</button>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <!-- SUMMARY PRODUCT-->
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+
+  <div class="mb-3 mt-3 row">
+    <label class="col-sm-2 col-form-label">Client</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control">
+    </div>
+  </div>
+
+  <div class="mb-3 mt-3 row">
+    <label class="col-sm-2 col-form-label">Phone</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control">
+    </div>
+  </div>
+
+  <div class="mb-3 mt-3 row">
+    <label class="col-sm-2 col-form-label">Order date</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control">
+    </div>
+  </div>
+
+  <div class="mb-3 mt-3 row">
+    <label class="col-sm-2 col-form-label">Address</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control">
+    </div>
+  </div>
+
+  <div class="mb-3 mt-3 row">
+    <label class="col-sm-2 col-form-label">Notes</label>
+    <div class="col-sm-10">
+      <textarea class="form-control"></textarea>
+    </div>
+  </div>
+
+  <div class="mb-3 mt-3 row">
+    <label class="col-sm-2 col-form-label">Service</label>
+    <div class="col-sm-10">
+        <select class="form-select" aria-label="Default select example">
+        <option selected>Open this select menu</option>
+        <option value="1">Delivery</option>
+        <option value="2">Pickup</option>
+        </select>
+    </div>
+  </div>
+
+  <div class="mb-3 mt-3 row">
+    <label class="col-sm-2 col-form-label">Cancel</label>
+    <div class="col-sm-10">
+      <input type="checkbox" class="form-check-input">
+    </div>
+  </div>
+
+  <div class="mb-3 mt-3 row">
+    <label class="col-sm-2 col-form-label">State</label>
+    <div class="col-sm-10">
+        <select class="form-select" aria-label="Default select example">
+        <option selected>Open this select menu</option>
+        <option value="1">Pendient</option>
+        <option value="2">Process</option>
+        <option value="3">Finish</option>
+        </select>
+    </div>
+  </div>
+
+  <div class="mb-3 mt-3 row">
+    <label class="col-sm-2 col-form-label">Obs</label>
+    <div class="col-sm-10">
+      <textarea class="form-control"></textarea>
+    </div>
+  </div>
+
+    </div>
+    <!-- ADD PRODUCT -->
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+
+<div class="row mt-3">
+	<div class="row col-lg-7 mt-sm-2">
+	    <div class="col-lg-3 col-sm-3">
+	        <label>Product</label>
+	    </div>
+	    <div class="col-lg-9 col-sm-9">
+	        <div class="form-group">
+	            <input id="pname" type="text" class="form-control" />
+	        </div>
+	    </div>
+	</div>
+	<div class="row col-lg-4 mt-sm-2">
+	    <div class="col-lg-4 col-sm-3">
+	        <label>Quantity</label>
+	    </div>
+	    <div class="col-lg-8 col-sm-9">
+	        <div class="form-group">
+	            <input id="pquantity" type="number" class="form-control" />
+	        </div>
+	    </div>
+	</div>
+	<div class="row col-lg-2 mt-sm-2">
+	    <div class="col-lg-12 col-lg-offset-2">
+	        <button id="addBtn" type="button" class="addBtn btn btn-primary">
+	            Add
+	        </button>
+	    </div>
+	</div>
+</div>
+
+	<br>
+	<div class="row">
+	    <div class="col-lg-12">
+	        <table id="example" class="table table-bordered">
+	            <thead>
+	                <tr>
+	                    <th class="col-lg-7 text-center">Product</th>
+	                    <th class="col-lg-3 text-center">Quantity</th>
+	                    <th class="col-lg-1 text-center">Delete</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                
+	            </tbody>
+	        </table>
+	    </div>
+	</div>
+  
+  </div>
+</div>
+    </form>
+ 
+        </div>
+    </div>
+  </div>
+</div>
+    <!-- FIN MODAL DETAIL -->
+
+        <div class="col py-3 mt-5 " style="z-index:1045">
             <section class="container">
                 <h1>Orders</h1>
-<form class="row align-items-end ">
-    
-    <div class="col-sm-5 col-xl-2  form-group my-2">
-        <label>Order date</label>
-        <input type="date" class="form-control">
-    </div>
-    <div class=" col-sm-6 col-xl-2 my-2">
-        <label>to</label>
-        <input type="date" class="form-control">
-    </div>
+<div id="alerta1" class="alert alert-danger" role="alert" hidden>
+	<strong>Rage error:</strong> the end date must be greater than or equal to the start date.
+</div>
 
-    <div class="col-sm-12 col-xl-4 my-2">
+<div class="row align-items-end">
+
+<form method="post" id="SearchForm" class="row align-items-end col-xl-8">
+	{% csrf_token %}
+
+    <div class="col-sm-5 col-xl-3  form-group my-2">
+        <label>Order date</label>
+        <input id="FechaInicial" name="FechaInicial" type="date" class="form-control">
+    </div>
+    <div class=" col-sm-6 col-xl-3 my-2">
+        <label>to</label>
+        <input id="FechaFinal" name="FechaFinal" type="date" class="form-control">
+    </div>
+    <div class="col-sm-12 col-xl-6 my-2">
          <div class="input-group">
 			<div class="input-group-prepend">
 				<span class="input-group-text" id="basic-addon1">
 					<i class="bi bi-search"></i>
 				</span>
 			</div>
-			<input type="search" class="form-control">
+			<input id="buscar" value="{{search}}" name="search" type="search" class="form-control">
 		</div>
     </div>
-   
-	<div class="col-sm-12 col-xl-1 my-2 d-grid">
-        <button type="submit" class="btn btn-block btn-danger">
+</form>
+
+<div class="row align-items-end col-xl-4">
+	<div class="col-sm-12 col-xl-3 my-2 d-grid">
+        <button class="btn btn-block btn-danger" data-bs-toggle="modal" data-bs-target="#sincModal">
            Sinc
         </button>
     </div>
-    <div class="col-sm-12 col-xl-1 my-2 d-grid">
-        <button type="submit" class="btn btn-block btn-warning">
+    <div class="col-sm-12 col-xl-3 my-2 d-grid">
+        <button class="btn btn-block btn-warning">
            Export
         </button>
     </div>
-    <div class="col-sm-12 col-xl-1  my-2 d-grid">
-        <button type="submit" class="btn btn-block btn-success">Detail</button>
+    <div class="col-sm-12 col-xl-3  my-2 d-grid">
+        <button class="btn btn-block btn-success" data-bs-toggle="modal" data-bs-target="#detailModal" >Detail</button>
     </div>
-     <div class="col-sm-12 col-xl-1 my-2 d-grid">
-        <button type="submit" class="btn btn-block btn-primary">Search</button>
+     <div class="col-sm-12 col-xl-3 my-2 d-grid">
+        <button form="SearchForm" name="nombre" value="search" type="submit" class="btn btn-block btn-primary">Search</button>
     </div>
 
-	<div class="table-responsive">
+</div>
+
+</div>				
+    <!-- INICIA TABLA -->
+
+   	<div class="table-responsive">
 	<table class="table mt-5">
     <thead class="table-dark" style="--bs-table-bg:#dc3545;--bs-table-border-color:#dc3545">
       <tr>
@@ -64,144 +273,42 @@ Ventas
         <th>Client/ Tel/ Direccion</th>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <td>10/07/2022</td>
-        <td style="color:green" ><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td>
-			 <i class="bi bi-check-circle-fill"></i></td>
-        <td></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td  style="color:Gold"><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td><i class="bi bi-check-circle-fill"></i></td>
-        <td></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td style="color:red"><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td><i class="bi bi-check-circle-fill"></i></td>
-        <td  style="color:red"><i class="bi bi-check-circle-fill"></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td style="color:red"><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td><i class="bi bi-check-circle-fill"></i></td>
-        <td style="color:red"><i class="bi bi-check-circle-fill"></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td style="color:green" ><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td>
-			 <i class="bi bi-check-circle-fill"></i></td>
-        <td></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td  style="color:Gold"><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td><i class="bi bi-check-circle-fill"></i></td>
-        <td></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td style="color:red"><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td><i class="bi bi-check-circle-fill"></i></td>
-        <td  style="color:red"><i class="bi bi-check-circle-fill"></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td style="color:red"><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td><i class="bi bi-check-circle-fill"></i></td>
-        <td style="color:red"><i class="bi bi-check-circle-fill"></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td style="color:green" ><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td>
-			 <i class="bi bi-check-circle-fill"></i></td>
-        <td></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td  style="color:Gold"><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td><i class="bi bi-check-circle-fill"></i></td>
-        <td></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td style="color:red"><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td><i class="bi bi-check-circle-fill"></i></td>
-        <td  style="color:red"><i class="bi bi-check-circle-fill"></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td style="color:red"><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td><i class="bi bi-check-circle-fill"></i></td>
-        <td style="color:red"><i class="bi bi-check-circle-fill"></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td style="color:green" ><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td>
-			 <i class="bi bi-check-circle-fill"></i></td>
-        <td></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td  style="color:Gold"><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td><i class="bi bi-check-circle-fill"></i></td>
-        <td></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td style="color:red"><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td><i class="bi bi-check-circle-fill"></i></td>
-        <td  style="color:red"><i class="bi bi-check-circle-fill"></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
-      <tr>
-        <td>10/07/2022</td>
-        <td style="color:red"><i class="bi bi-circle-fill"></i></td>
-        <td>11:00 am</td>
-         <td><i class="bi bi-check-circle-fill"></i></td>
-        <td style="color:red"><i class="bi bi-check-circle-fill"></i></td>
-        <td>Pepito Perez/ 95789432/ Avenida 65 </td>
-      </tr>
+    <tbody id="filastabla">
 
+    {% for pedido in pedidos %}
+      <tr id="{{ pedido.IdPedidoSquare }}" name="rowtable">
+		  <td >
+			  <div>
+			  {{ pedido.Fecha|date:"d - m - Y"  }}
+			  </div>
+		  </td>
+          <td style= "color:{{pedido.Estado.color}}" >
+              <i class="bi bi-circle-fill"></i>
+          </td>
+        <td>{{ pedido.Hora }}</td>
+         <td>
+             {% if pedido.Servicio.Tipo == 'D' %}
+			    <i class="bi bi-check-circle-fill"></i>
+            {% endif %}
+         </td>
+        <td style="color:red">
+            {% if pedido.Cancelado %}
+                <i class="bi bi-check-circle-fill"></i>
+            {% endif %}
+        </td>
+        <td>
+			{{pedido.NombreCliente}}
+			{% if pedido.Telefono != 'sin direccion'%}
+			/ {{pedido.Telefono}}
+			{% endif %}
+			{% if pedido.Direccion != 'sin direccion' %}
+			/ {{pedido.Direccion}} </td>
+			{% endif %}
+      </tr>
+    {% endfor %}
     </tbody>
   </table>
 	</div>
-</form>
             </section>
         </div>
     </div>

@@ -1,0 +1,20 @@
+.bg-yellow {
+    background-color: yellow;
+    }
+
+#example table
+{
+    counter-reset: rowNumber;
+}
+
+#example table tr > td:first-child
+{
+    counter-increment: rowNumber;
+}
+                
+#example table tr td:first-child::before
+{
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+}

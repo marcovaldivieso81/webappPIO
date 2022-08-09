@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'apps.maestra',
     'apps.venta',
     'apps.migracion',
+    'colorfield',
 ]
 
 MIDDLEWARE = [
