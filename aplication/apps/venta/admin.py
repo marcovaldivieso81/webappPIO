@@ -20,7 +20,7 @@ class PedidoAdmin(admin.ModelAdmin):
     #readonly_fields=('created','updated')
 
 class VarianteAdmin(admin.ModelAdmin):
-    search_fields=['IdArticulo_id__Descripcion']
+    search_fields=['IdArticulo_id__Descripcion','IdArticulo_id__IdArticuloSquare']
     #inlines=[alternativaAdmin]
     #readonly_fields=('created','updated')
     class Meta:

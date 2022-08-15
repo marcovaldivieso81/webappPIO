@@ -1,3 +1,15 @@
+// APIREST PRODUCTOS
+//
+fetch('/ventas/api_productos').then(response => response.json()).then(data=>{
+	lista_productos=data
+	new Autocomplete(document.getElementById('pname'), {
+		data: lista_productos.products,
+		onSelectItem: ({ value}) => {
+		//console.log("user selected:", label, value);
+		document.getElementById('pname').dataset.value=value
+		}
+	});
+}).catch(err=>console.log(err))
 // VALIDA SI UNA FECHA ES MAYOR QUE OTRA
 function ValidarFechas(IdInicio,IdFin){
     var fechainicial = document.getElementById(IdInicio).value;
@@ -43,10 +55,10 @@ document.addEventListener("input",(event) => {
     StartFecha("FechaInicial","FechaFinal")
     document.getElementById('alerta1').hidden = false
 });
-
+// INICIA FECHA DEFAULT DEL FORMULARIO
+//
 StartFecha("FechaInicial","FechaFinal")
 StartFecha("FechaInicialSinc","FechaFinalSinc")
-
 // BUSQUEDA POR AUTOCOMPLETADO
 //
 document.getElementById('buscar').addEventListener('input',(event)=>{
@@ -56,7 +68,6 @@ document.getElementById('buscar').addEventListener('input',(event)=>{
         fila.hidden=!texto.includes(buscando)
     }
 })
-
 // COLOREADO FECHA ACTUAL
 //
 for(let fila of document.getElementById('filastabla').children){
@@ -68,8 +79,8 @@ for(let fila of document.getElementById('filastabla').children){
         contentFila.style.backgroundColor = "#40E0D0"       
     }
 }
-
 //SELECCIONA UNA FILA DE UNA TABLA
+//
 var selectedRow = null
 Filas=document.querySelectorAll('[name="rowtable"]')
 Filas.forEach((fila) => {
@@ -82,23 +93,66 @@ Filas.forEach((fila) => {
         })
         seleccion=event.currentTarget
         seleccion.classList.add('bg-yellow')
+		// CONSULTA DE DATOS DEL PRODUCTO
         selectedRow=seleccion.id
+		fetch('/ventas/api_productos?idpedido='+selectedRow)
+			.then(response => response.json())
+			.then(data=>{
+			datos_pedido=data
+			console.log(datos_pedido)
+			document.getElementById('pedido-id').value=selectedRow
+			document.getElementById('pedido-notas').value=datos_pedido.Notas
+			document.getElementById('pedido-observacion').value=datos_pedido.Observacion
+			document.getElementById('pedido-nombrecliente').value=datos_pedido.NombreCliente
+			document.getElementById('pedido-telefono').value=datos_pedido.Telefono
+			document.getElementById('pedido-direccion').value=datos_pedido.Direccion
+			document.getElementById('pedido-fechahora').value=datos_pedido.FechaHora
+			document.getElementById('pedido-cancelado').checked=datos_pedido.Cancelado
+
+			for(let servicio of document.getElementById('pedido-servicios').children){
+				if(servicio.value == datos_pedido.Servicio){
+					servicio.selected=true
+				}
+				}
+			for(let estado of document.getElementById('pedido-estados').children){
+				if(estado.value == datos_pedido.Estado){
+					estado.selected=true
+				}
+				}
+			tbody=document.querySelector("#example tbody")			
+			tbody.replaceChildren()
+				for({cantidad:quantity,variante_id__IdArticulo__Descripcion:variante,variante_id__Descripcion:desc,variante_id:id} of datos_pedido.ListaPedidos){
+					tbody.append(productRow(variante+ ' - ' + desc, id, quantity))
+				}
+			})
+			.catch(err=>console.log(err))
     })
 })
-
-// ADD PRODUCT
+//	CONTRUYE ROW DE PRODUCTO DESDE TEMPLATE
 //
+rowTemplate = document.getElementById('template-prod').content
+function productRow(name,id,quantity){
+	row=rowTemplate.cloneNode(true)
+	row.querySelector('.pname-td').innerText=name
+	row.querySelector('.pquantity-td').innerText=quantity
+	row.querySelector('input').value=JSON.stringify({name:id, quantity})
+	return row
+}
+// ANADE ROW PRODUCTO A LA TABLA
 document.getElementById('addBtn').addEventListener('click',function(){
+	var id=document.getElementById('pname').dataset.value
     var name = document.getElementById('pname').value;
-    document.getElementById('pname').value = ''
-    var addr = document.getElementById('pquantity').value;
-    document.getElementById('pquantity').value = ''
-    var markup = "<tr><td>" + name + "</td><td>" + addr + "</td><td><button class='btn btn-small btn-danger delBtn'> <i class='bi bi-trash delBtn'></i> </button></td></tr>";
-    document.querySelector("#example tbody").innerHTML+=markup;
+    var quantity = document.getElementById('pquantity').value;
+	if(id==null || quantity ==''){return}
+	delete document.getElementById('pname').dataset.value
+	document.getElementById('pname').value = ''
+    document.getElementById('pquantity').value = '1'
+    document.querySelector("#example tbody").append(productRow(name, id, quantity));
     });
-    
+//ELIMINA ROW PRODUCTO AL HACER CLICK EN ICONO PAPELERA    
 document.getElementById('example').addEventListener("click", function (event) {
     if(!event.target.matches('.delBtn')){return}
     event.target.closest('tr').remove()
 });
+
 

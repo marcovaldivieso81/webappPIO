@@ -7,6 +7,18 @@ Ventas
 {% block body %}
 {% include "venta/navbar.html" %}
 
+<template id="template-prod">
+	<tr>
+		<td class="pname-td"></td>
+		<td class="pquantity-td"></td>
+		<td>
+			<button class='btn btn-small btn-danger delBtn'>
+				<i class='bi bi-trash delBtn'></i>
+			</button>
+		</td>
+		<input name='prod' type='hidden'></tr>
+</template>
+
 <div class="container-fluid position-relative">
 
     <div class="row flex-nowrap">
@@ -54,17 +66,20 @@ Ventas
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
         <div class="modal-footer pb-0">
-            <button type="submit" name="nombre" value="addproduct" class="btn btn-success">
+            <button form="addProdForm" type="submit" name="nombre" value="addproduct" class="btn btn-success">
                 <i class="bi bi-save"></i>
                 Save
             </button>
         </div>
-        <div class="modal-body pt-0">
-<nav>
-  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    
+<form id="addProdForm" method="post">
+    {% csrf_token %}
+	<input type="hidden" name="IdPedido" id="pedido-id">
+    <div class="modal-body pt-0">
+    <nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
     <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Summary</button>
     
-    <form method="post">
     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Product</button>
   </div>
 </nav>
@@ -75,72 +90,84 @@ Ventas
   <div class="mb-3 mt-3 row">
     <label class="col-sm-2 col-form-label">Client</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control">
+      <input type="text" id='pedido-nombrecliente' class="form-control">
     </div>
   </div>
 
   <div class="mb-3 mt-3 row">
     <label class="col-sm-2 col-form-label">Phone</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control">
+      <input type="text" id='pedido-telefono' class="form-control">
     </div>
   </div>
 
   <div class="mb-3 mt-3 row">
     <label class="col-sm-2 col-form-label">Order date</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control">
+      <input type="text" id='pedido-fechahora' class="form-control">
     </div>
   </div>
 
   <div class="mb-3 mt-3 row">
     <label class="col-sm-2 col-form-label">Address</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control">
+      <input type="text" id='pedido-direccion' class="form-control">
     </div>
   </div>
 
   <div class="mb-3 mt-3 row">
     <label class="col-sm-2 col-form-label">Notes</label>
     <div class="col-sm-10">
-      <textarea class="form-control"></textarea>
+      <textarea id='pedido-notas' class="form-control"></textarea>
     </div>
   </div>
 
   <div class="mb-3 mt-3 row">
     <label class="col-sm-2 col-form-label">Service</label>
     <div class="col-sm-10">
-        <select class="form-select" aria-label="Default select example">
+        <select name="Servicio" id="pedido-servicios" class="form-select" aria-label="Default select example">
+		<option disabled selected value> -- select an option -- </option>
+		{% for servicio in servicios %}
+		<option value='{{ servicio.IdServicio }}'>{{ servicio.Tipo }}</option>
+		{% endfor%}
+		<!--
         <option selected>Open this select menu</option>
         <option value="1">Delivery</option>
         <option value="2">Pickup</option>
+		i-->
         </select>
     </div>
   </div>
-
+  <p>{{ servicios.0_IdServicio }}</p>
   <div class="mb-3 mt-3 row">
-    <label class="col-sm-2 col-form-label">Cancel</label>
+    <label  class="col-sm-2 col-form-label">Cancel</label>
     <div class="col-sm-10">
-      <input type="checkbox" class="form-check-input">
+      <input name="Cancel" id="pedido-cancelado" type="checkbox" class="form-check-input">
     </div>
   </div>
 
   <div class="mb-3 mt-3 row">
-    <label class="col-sm-2 col-form-label">State</label>
+    <label  class="col-sm-2 col-form-label">State</label>
     <div class="col-sm-10">
-        <select class="form-select" aria-label="Default select example">
+        <select  name="Estado" id="pedido-estados" class="form-select" aria-label="Default select example">
+			<option disabled selected value> -- select an option -- </option>
+		{% for estado in estados %}
+			<option value='{{ estado.IdEstado }}'>{{ estado.IdEstado }}</option>
+		{% endfor%}
+<!--
         <option selected>Open this select menu</option>
         <option value="1">Pendient</option>
         <option value="2">Process</option>
         <option value="3">Finish</option>
+-->
         </select>
     </div>
   </div>
 
   <div class="mb-3 mt-3 row">
-    <label class="col-sm-2 col-form-label">Obs</label>
+    <label class="col-sm-2 col-form-label" >Obs</label>
     <div class="col-sm-10">
-      <textarea class="form-control"></textarea>
+      <textarea name="Observacion" id='pedido-observacion' class="form-control" required></textarea>
     </div>
   </div>
 
@@ -155,7 +182,7 @@ Ventas
 	    </div>
 	    <div class="col-lg-9 col-sm-9">
 	        <div class="form-group">
-	            <input id="pname" type="text" class="form-control" />
+				<input id="pname" type="text" class="form-control" />
 	        </div>
 	    </div>
 	</div>
@@ -165,7 +192,7 @@ Ventas
 	    </div>
 	    <div class="col-lg-8 col-sm-9">
 	        <div class="form-group">
-	            <input id="pquantity" type="number" class="form-control" />
+	            <input id="pquantity" type="number" value='1' class="form-control" />
 	        </div>
 	    </div>
 	</div>
@@ -177,30 +204,27 @@ Ventas
 	    </div>
 	</div>
 </div>
-
-	<br>
-	<div class="row">
-	    <div class="col-lg-12">
-	        <table id="example" class="table table-bordered">
-	            <thead>
-	                <tr>
-	                    <th class="col-lg-7 text-center">Product</th>
-	                    <th class="col-lg-3 text-center">Quantity</th>
-	                    <th class="col-lg-1 text-center">Delete</th>
-	                </tr>
-	            </thead>
-	            <tbody>
-	                
-	            </tbody>
-	        </table>
+<div class="row mt-3">
+	<div class="col-lg-12">
+	    <table id="example" class="table table-bordered">
+	        <thead>
+	            <tr>
+	                <th class="col-lg-7 text-center">Product</th>
+	                <th class="col-lg-3 text-center">Quantity</th>
+	                <th class="col-lg-1 text-center">Delete</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+				               
+	        </tbody>
+	    </table>
 	    </div>
 	</div>
-  
-  </div>
 </div>
-    </form>
- 
-        </div>
+</div> 
+
+</div>
+</form>
     </div>
   </div>
 </div>
