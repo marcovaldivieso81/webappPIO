@@ -22,21 +22,19 @@ def home(request): #acercade
             FechaFinal=request.POST['FechaFinal']
             return redirect(f'./?initial={FechaActual}&final={FechaFinal}&search={search}')
         elif request.POST['nombre'] == 'addproduct':
-            # ACA DEBO IMPLEMENTAR EL GUARDADO DE PRODUCTO 
             form=request.POST
-            #form = dict(queryDict.iterlists())
             print('-------------')
             print(form)
             print('-------------')
             datos_guardados=Pedido.objects.filter(IdPedidoSquare=form['IdPedido'])
-            #print('-------------------')
-            #print(datos_guardados)
-            #print('------------------')
             datos_guardados.update(Observacion=form['Observacion'])
-            #prod_json=json.loads(form['prod'])
+            ## SE AÑADEN LOS PRODUCTOS
             prod_json=form.getlist('prod')
-            print(type(prod_json))
             print('------------------------')
+            print(prod_json)
+            print('------------------------')
+            para_borrar=pedido_variante.objects.filter(pedido_id=form['IdPedido']) 
+            para_borrar.delete()
             for producto in prod_json:
                 producto=json.loads(producto)
                 pedido_variante.objects.create(
@@ -91,14 +89,6 @@ def api_productos(request):
     if IdPedido:
         ContenidoPedido=Pedido.objects.get(IdPedidoSquare=IdPedido)
         pedidos=list(pedido_variante.objects.filter(pedido_id=IdPedido).values('cantidad','variante_id__IdArticulo__Descripcion','variante_id__Descripcion','variante_id'))
-        #listapedidos=[]
-        #for item in pedidos:
-         #   dic={
-         #           'pedido':type(item.pedido),
-         #           'variante':item.variante,
-         #           'cantidad':item.cantidad
-         #           }
-          #  listapedidos.append(dic)
         print(pedidos)
         ctx={
                 'Observacion':ContenidoPedido.Observacion,

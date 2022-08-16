@@ -86,7 +86,6 @@ Ventas
 <div class="tab-content" id="nav-tabContent">
     <!-- SUMMARY PRODUCT-->
     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-
   <div class="mb-3 mt-3 row">
     <label class="col-sm-2 col-form-label">Client</label>
     <div class="col-sm-10">
@@ -100,28 +99,24 @@ Ventas
       <input type="text" id='pedido-telefono' class="form-control">
     </div>
   </div>
-
   <div class="mb-3 mt-3 row">
     <label class="col-sm-2 col-form-label">Order date</label>
     <div class="col-sm-10">
       <input type="text" id='pedido-fechahora' class="form-control">
     </div>
   </div>
-
   <div class="mb-3 mt-3 row">
     <label class="col-sm-2 col-form-label">Address</label>
     <div class="col-sm-10">
       <input type="text" id='pedido-direccion' class="form-control">
     </div>
   </div>
-
   <div class="mb-3 mt-3 row">
     <label class="col-sm-2 col-form-label">Notes</label>
     <div class="col-sm-10">
       <textarea id='pedido-notas' class="form-control"></textarea>
     </div>
   </div>
-
   <div class="mb-3 mt-3 row">
     <label class="col-sm-2 col-form-label">Service</label>
     <div class="col-sm-10">
@@ -130,11 +125,6 @@ Ventas
 		{% for servicio in servicios %}
 		<option value='{{ servicio.IdServicio }}'>{{ servicio.Tipo }}</option>
 		{% endfor%}
-		<!--
-        <option selected>Open this select menu</option>
-        <option value="1">Delivery</option>
-        <option value="2">Pickup</option>
-		i-->
         </select>
     </div>
   </div>
@@ -145,7 +135,6 @@ Ventas
       <input name="Cancel" id="pedido-cancelado" type="checkbox" class="form-check-input">
     </div>
   </div>
-
   <div class="mb-3 mt-3 row">
     <label  class="col-sm-2 col-form-label">State</label>
     <div class="col-sm-10">
@@ -154,12 +143,6 @@ Ventas
 		{% for estado in estados %}
 			<option value='{{ estado.IdEstado }}'>{{ estado.IdEstado }}</option>
 		{% endfor%}
-<!--
-        <option selected>Open this select menu</option>
-        <option value="1">Pendient</option>
-        <option value="2">Process</option>
-        <option value="3">Finish</option>
--->
         </select>
     </div>
   </div>
@@ -174,7 +157,6 @@ Ventas
     </div>
     <!-- ADD PRODUCT -->
   <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-
 <div class="row mt-3">
 	<div class="row col-lg-7 mt-sm-2">
 	    <div class="col-lg-3 col-sm-3">
@@ -222,7 +204,6 @@ Ventas
 	</div>
 </div>
 </div> 
-
 </div>
 </form>
     </div>
@@ -298,7 +279,6 @@ Ventas
       </tr>
     </thead>
     <tbody id="filastabla">
-
     {% for pedido in pedidos %}
       <tr id="{{ pedido.IdPedidoSquare }}" name="rowtable">
 		  <td >
@@ -337,7 +317,5 @@ Ventas
         </div>
     </div>
 </div>
-
 {% endblock %}
-
 
