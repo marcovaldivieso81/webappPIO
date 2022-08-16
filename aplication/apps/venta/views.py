@@ -6,7 +6,7 @@ from django.db.models import Q ## ESTO SIRVE PARA HACER BÚSQUEDA
 from datetime import date, timedelta
 import json
 from .models import Pedido, Variante, Articulo, Estado, Servicio, pedido_variante
-from scripts.utilidades_db import guarda_citas 
+from scripts.utilidades_db import guarda_citas, guarda_articulos
 # Create your views here.
 @login_required
 def home(request): #acercade
@@ -15,6 +15,7 @@ def home(request): #acercade
             FechaActual=request.POST['FechaInicial']
             FechaFinal=request.POST['FechaFinal']
             guarda_citas(FechaActual+'T00:00:00Z', FechaFinal+'T23:59:00Z')
+            guarda_articulos()
             return redirect(f'./?initial={FechaActual}&final={FechaFinal}')
         elif request.POST['nombre'] == 'search':
             search=request.POST['search']
@@ -23,16 +24,21 @@ def home(request): #acercade
             return redirect(f'./?initial={FechaActual}&final={FechaFinal}&search={search}')
         elif request.POST['nombre'] == 'addproduct':
             form=request.POST
-            print('-------------')
-            print(form)
-            print('-------------')
+            #print('-------------')
+            #print(form)
+            #print('-------------')
             datos_guardados=Pedido.objects.filter(IdPedidoSquare=form['IdPedido'])
-            datos_guardados.update(Observacion=form['Observacion'])
+            Cancel=form.get('Cancel') == 'on'
+            #print(Cancel)
+            datos_guardados.update(
+                    Observacion=form['Observacion'],
+                    Estado_id=form['Estado'],
+                    Cancelado=Cancel)
             ## SE AÑADEN LOS PRODUCTOS
             prod_json=form.getlist('prod')
-            print('------------------------')
-            print(prod_json)
-            print('------------------------')
+            #print('------------------------')
+            #print(prod_json)
+            #print('------------------------')
             para_borrar=pedido_variante.objects.filter(pedido_id=form['IdPedido']) 
             para_borrar.delete()
             for producto in prod_json:
