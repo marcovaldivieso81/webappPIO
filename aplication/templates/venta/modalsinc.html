@@ -1,0 +1,31 @@
+<div class="modal fade mt-5" id="sincModal" tabindex="-1" aria-labelledby="sincModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="exampleModalLabel">Synchronization</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post">
+		{% csrf_token %}
+        <div class="modal-body">
+            <div class="col-sm-12 col-xl-12  form-group my-2">
+                <label>Order date</label>
+                <input id="FechaInicialSinc" name="FechaInicial" type="date" class="form-control" readonly>
+            </div>
+            <div class=" col-sm-12 col-xl-12 my-2">
+                <label>to</label>
+                <input id="FechaFinalSinc" name="FechaFinal" type="date" class="form-control">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button name="nombre" type="submit" class="btn btn-success" value="sinc">
+                <i class="bi bi-arrow-clockwise"></i>
+                Sinc
+            </button>
+         </div>
+      </form>
+      
+    </div>
+  </div>
+</div>
+
