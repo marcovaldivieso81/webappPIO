@@ -46,7 +46,7 @@ function StartFecha(IdInicio,IdFin){
     }
     document.getElementById(IdFin).value = FechaFinF;
 }
-// ACTUALIZA FECHAS DE LOS INPUT LUEGO DEL SINC
+// ACTUALIZA FECHAS DEL INPUT PRINCIPAL
 document.addEventListener("input",(event) => {
     if(!["FechaInicial", "FechaFinal"].includes(event.target.id)){return}
     if (ValidarFechas("FechaInicial","FechaFinal")){
@@ -55,6 +55,16 @@ document.addEventListener("input",(event) => {
     StartFecha("FechaInicial","FechaFinal")
     document.getElementById('alerta1').hidden = false
 });
+// ACTUALIZA FECHAS DEL INPUT SINC
+document.addEventListener("input",(event) => {
+    if(!["FechaInicialSinc", "FechaFinalSinc"].includes(event.target.id)){return}
+    if (ValidarFechas("FechaInicialSinc","FechaFinalSinc")){
+        document.getElementById('alerta2').hidden = true
+        return}
+    StartFecha("FechaInicialSinc","FechaFinalSinc")
+    document.getElementById('alerta2').hidden = false
+});
+
 // INICIA FECHA DEFAULT DEL FORMULARIO
 //
 StartFecha("FechaInicial","FechaFinal")
