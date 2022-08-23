@@ -119,6 +119,8 @@ Ventas
         <th>Hour</th>
         <th>Delivery</th>
         <th>Cancel</th>
+		<th>In prod</th>
+		<th>Confirmed</th>
         <th>Client/ Tel/ Direccion</th>
 		<th></th>
       </tr>
@@ -142,6 +144,16 @@ Ventas
          </td>
         <td class="text-center" style="color:red">
             {% if pedido.Cancelado %}
+                <i class="bi bi-check-circle-fill"></i>
+            {% endif %}
+        </td>
+        <td class="text-center" style="color:red">
+            {% if pedido.In_Production %}
+                <i class="bi bi-check-circle-fill"></i>
+            {% endif %}
+        </td>
+        <td class="text-center" style="color:red">
+            {% if pedido.Confirmed_by_customer %}
                 <i class="bi bi-check-circle-fill"></i>
             {% endif %}
         </td>
