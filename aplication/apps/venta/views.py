@@ -42,7 +42,8 @@ def home(request): #acercade
                     Servicio_id=valor_servicio,
                     Cancelado=Cancel,
                     Confirmed_by_customer=Confirmed_by_customer,
-                    In_Production=In_Production)
+                    In_Production=In_Production,
+                    Direccion=form.get('pedido-direccion'))
             ## SE AÑADEN LOS PRODUCTOS
             prod_json=form.getlist('prod')
             para_borrar=pedido_variante.objects.filter(pedido_id=form['IdPedido']) 
