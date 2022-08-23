@@ -34,6 +34,7 @@ class Usuario(AbstractBaseUser):
 
     activo = models.BooleanField(default = True)
     usuario_admin = models.BooleanField(default = False)
+    admin_app = models.BooleanField(default = False)
     objects = UsuarioManager()
 
     USERNAME_FIELD = 'username'

@@ -7,5 +7,6 @@ from django.conf.urls.static import static
 urlpatterns=[
     path('',views.home,name='venta'),
     path('api_productos',views.api_productos,name='api_productos'),
+    path('exporta_excel',views.ExportaExcel,name='exporta_excel'),
     ]
  

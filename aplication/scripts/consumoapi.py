@@ -38,25 +38,11 @@ async def square_customer(customer_id):
                 return (False,customer_id)
             content=await response.text()
             customer = json.loads(content)['customer']
-            if 'address' in customer:
-                linea1 = customer['address'].get('address_line_1','')
-                linea2 = customer['address'].get('address_line_2','')
-                locality = customer['address'].get('locality','')
-                distrito = customer['address'].get('administrative_district_level_1','')
-                code =  customer['address'].get('postal_code')
-                country =  customer['address'].get('country')
-                direccion = f'{linea1} {linea2} {locality} {distrito} {code} {country}'
-            else:
-                direccion ='sin direccion'
             datos_customer = {
                         'Nombre': customer.get('given_name', '') + ' ' +  customer.get('family_name',''),
                         'Telefono' : customer.get('phone_number','no number'),
                         'Correo' : customer.get('email_address','sinmail@sinmail.com'),
-                        'Direccion':direccion
                         }
-                #if type(datos_customer) == None:
-                #    datos_customer={}
-                #print(datos_customer)
             return (True,datos_customer)
 
 

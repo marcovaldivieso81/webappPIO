@@ -33,7 +33,7 @@ class Variante(models.Model):
     UsuarioModificacion=models.CharField(max_length=100,null=True,blank=True)
     def __str__(self):
         return self.IdArticulo.Descripcion+' | '+self.Descripcion
-
+'''
 class Cliente(models.Model):
     IdCliente=models.AutoField(primary_key=True)
     Nombre=models.CharField(max_length=100)
@@ -47,10 +47,12 @@ class Cliente(models.Model):
     UsuarioCreacion=models.CharField(max_length=100)
     FechaModificacion=models.DateTimeField(auto_now=True)
     Eliminado=models.BooleanField()
+'''
 
 class Estado(models.Model):
     IdEstado = models.CharField(primary_key=True,max_length=30)
     color = ColorField(default='#FF0000')
+    active = models.BooleanField(default=True)
     def __str__(self):
         return self.IdEstado
 
@@ -70,9 +72,11 @@ class Pedido(models.Model):
     Articulos = models.ManyToManyField(Variante,through='pedido_variante')
     Notas = models.TextField()
     Servicio = models.ForeignKey(to=Servicio, on_delete=models.CASCADE,blank=True,null=True)
-    Estado = models.ForeignKey(to=Estado, on_delete=models.CASCADE,blank=True,null=True,default='pendiente')
+    Estado = models.ForeignKey(to=Estado, on_delete=models.CASCADE,blank=True,null=True,default='Pending')
     Cancelado=models.BooleanField(default=False)
-    Observacion = models.TextField(default='prueba')
+    Confirmed_by_customer=models.BooleanField(default=False)
+    In_Production=models.BooleanField(default=False)
+    Observacion = models.TextField(default='')
     FechaCreacion = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     UsuarioCreacion = models.CharField(max_length=100,null=True,blank=True)
     FechaModificacion = models.DateTimeField(auto_now=True,null=True,blank=True)

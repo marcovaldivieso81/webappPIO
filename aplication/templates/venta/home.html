@@ -19,17 +19,28 @@ Ventas
 		<input name='prod' type='hidden'></tr>
 </template>
 
+<template id="template-prod-lectura">
+	<tr>
+		<td class="pname-td"></td>
+		<td class="pquantity-td"></td>
+    </tr>
+</template>
+
 <div class="container-fluid position-relative">
 
     <div class="row flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-danger ">
+        <div class="col-auto col-lg-3 col-xl-2 px-sm-2 px-0 bg-danger ">
 		{% include "venta/sidebar.html" %}
 
     <!-- INICIA MODAL SINC -->
 		{% include "venta/modalsinc.html" %}
     <!-- FIN MODAL SINC -->
     <!-- INICIA MODAL DETAIL -->
+    {% if request.user.admin_app %}
 		{% include "venta/modaldetail.html" %}
+    {% else %}
+        	{% include "venta/modaldetail_lectura.html" %}
+    {% endif %}
     <!-- FIN MODAL DETAIL -->
 
         <div class="col py-3 mt-5 " style="z-index:1045">
@@ -64,25 +75,43 @@ Ventas
     </div>
 </form>
 
-<div class="row align-items-end col-xl-3">
-	<div class="col-sm-12 col-xl-4 my-2 d-grid">
-        <button class="btn btn-block btn-danger" data-bs-toggle="modal" data-bs-target="#sincModal">
-           Sinc
-        </button>
+<form method='post' action={% url 'exporta_excel' %} id="ExportForm" hidden>
+    {% csrf_token %}
+    <div></div>
+</form>
+
+    <div class="row align-items-end col-xl-3">
+    {% if request.user.admin_app %}
+	    <div class="col-sm-12 col-xl-4 my-2 d-grid">
+            <button class="btn btn-block btn-danger" data-bs-toggle="modal" data-bs-target="#sincModal">
+                Sinc
+            </button>
+        </div>
+        <div  class="col-sm-12 col-xl-4 my-2 d-grid">
+            <button form="ExportForm" id="export" class="btn btn-block btn-warning">
+                Export
+            </button>
+        </div>
+        <div class="col-sm-12 col-xl-4 my-2 d-grid">
+            <button form="SearchForm" name="nombre" value="search" type="submit" class="btn btn-block btn-primary">
+                Search
+            </button>
+        </div>
+    {% else %}
+        <div class="col-sm-12 col-xl-6 my-2 d-grid">
+            <button class="btn btn-block btn-warning">
+                Export
+            </button>
+        </div>
+        <div class="col-sm-12 col-xl-6 my-2 d-grid">
+            <button form="SearchForm" name="nombre" value="search" type="submit" class="btn btn-block btn-primary">Search</button>
+        </div>
+    {% endif %}
     </div>
-    <div class="col-sm-12 col-xl-4 my-2 d-grid">
-        <button class="btn btn-block btn-warning">
-           Export
-        </button>
-    </div>
-     <div class="col-sm-12 col-xl-4 my-2 d-grid">
-        <button form="SearchForm" name="nombre" value="search" type="submit" class="btn btn-block btn-primary">Search</button>
-    </div>
-</div>
 </div>				
     <!-- INICIA TABLA -->
    	<div class="table-responsive">
-	<table class="table mt-5">
+	<table id="table-products" class="table mt-5">
     <thead class="table-dark" style="--bs-table-bg:#dc3545;--bs-table-border-color:#dc3545">
       <tr>
         <th>Date</th>
@@ -121,7 +150,7 @@ Ventas
 			{% if pedido.Telefono != 'sin direccion'%}
 			/ {{pedido.Telefono}}
 			{% endif %}
-			{% if pedido.Direccion != 'sin direccion' %}
+			{% if pedido.Direccion %}
 			/ {{pedido.Direccion}} </td>
 			{% endif %}
 		<td>

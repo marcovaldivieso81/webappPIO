@@ -18,7 +18,6 @@ class CitaSquare(models.Model):
     IdRef=models.CharField(max_length=30)
     Version = models.IntegerField(default=0)
     Nombre=models.CharField(max_length=200)
-    Direccion=models.CharField(max_length=200)
     Correo=models.EmailField(max_length=100)
     Telefono=models.CharField(max_length=100)
     #Fecha=models.CharField(max_length=100)

@@ -40,9 +40,11 @@ async def obtiene_lista_citas(inicio,fin):
             'Servicios':cita['appointment_segments'][0]['service_variation_version'],
             'Fecha' : cita['start_at'][0:10],
             'Hora' : cita['start_at'][-9:-1],
-            'Observacion':' ',
-            'Estado': 'pendiente',
-            'Cancelado':False
+            'Observacion':'',
+            'Estado': 'Pending',
+            'Cancelado':False,
+            'Confirmed_by_customer':False,
+            'In_Production':False
             }
             lista_citas.append(datos_cita)
 
@@ -83,7 +85,6 @@ def guarda_citas(inicio,fin):
                     "Nota",
                     "Servicios",
                     "Version",
-                    "Direccion",
                     "Observacion"
                     )
                     VALUES (
@@ -96,7 +97,6 @@ def guarda_citas(inicio,fin):
                     %(Nota)s,
                     %(Servicios)s,
                     %(Version)s,
-                    %(Direccion)s,
                     %(Observacion)s
                     )''',item)
                 connection.commit() 
@@ -107,27 +107,29 @@ def guarda_citas(inicio,fin):
                         "IdPedidoSquare",
                         "NombreCliente",
                         "Telefono",
-                        "Direccion",
                         "Servicio_id",
                         "Notas",
                         "Observacion",
                         "Fecha",
                         "Hora",
                         "Estado_id",
-                        "Cancelado"
+                        "Cancelado",
+                        "Confirmed_by_customer",
+                        "In_Production"
                         ) 
                         VALUES (
                         %(IdRef)s, 
                         %(Nombre)s,
                         %(Telefono)s,
-                        %(Direccion)s,
                         %(Servicios)s,
                         %(Nota)s,
                         %(Observacion)s,
                         %(Fecha)s,
                         %(Hora)s,
                         %(Estado)s,
-                        %(Cancelado)s
+                        %(Cancelado)s,
+                        %(Confirmed_by_customer)s,
+                        %(In_Production)s
                         ) 
                         ON CONFLICT (
                         "IdPedidoSquare") 
@@ -153,8 +155,13 @@ def guarda_articulos():
         for articulo in articulos:
             item_data = articulo.get('item_data')
             if item_data:
-                data_articulo={'IdArticuloSquare': articulo['id'],
-                        'Descripcion': item_data['name']}
+                desc=item_data['name']
+                if desc.isdigit():
+                    pass
+                else:
+                    data_articulo={'IdArticuloSquare': articulo['id'],
+                                    'Descripcion': item_data['name']}
+
                 cursor.execute('''INSERT INTO 
                         venta_articulo(
                         "IdArticuloSquare",
@@ -168,7 +175,7 @@ def guarda_articulos():
                         "Descripcion"  = venta_articulo."Descripcion"
                         ''',data_articulo)
                 connection.commit()
-                print('Articulo guardado ...')
+                #print('Articulo guardado ...')
                 variantes = item_data['variations']
                 for variante in variantes:
                     print('--------------------------------------')
@@ -201,7 +208,7 @@ def guarda_articulos():
                     "PrecioUnitario" = venta_variante."PrecioUnitario", 
                     "IdMoneda"=venta_variante."IdMoneda" ''',data_variante)
                     connection.commit()
-                    print('Variante guardada')
+                    #print('Variante guardada')
                 print('======================================')
         connection.close()
     except Exception as ex:

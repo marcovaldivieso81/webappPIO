@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Articulo, Variante, Cliente, Pedido, PedidoBitacora, Estado, pedido_variante, Servicio 
+from .models import Articulo, Variante, Pedido, PedidoBitacora, Estado, pedido_variante, Servicio 
 # Register your models here.
 
 class pedido_varianteAdmin(admin.TabularInline):
@@ -14,7 +14,7 @@ class PedidoAdmin(admin.ModelAdmin):
     list_editable=['Cancelado']
     search_fields=['NombreCliente']
 
-    list_per_page=20
+    #list_per_page=20
 
     #search_fields=['titulo']
     #readonly_fields=('created','updated')
@@ -28,7 +28,6 @@ class VarianteAdmin(admin.ModelAdmin):
 
 admin.site.register(Articulo)
 admin.site.register(Variante, VarianteAdmin)
-admin.site.register(Cliente)
 admin.site.register(Pedido,PedidoAdmin)
 admin.site.register(PedidoBitacora)
 admin.site.register(Estado)

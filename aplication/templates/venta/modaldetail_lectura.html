@@ -5,14 +5,8 @@
         <h5 class="modal-title" id="exampleModalLabel">Order</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-        <div class="modal-footer pb-0">
-            <button form="addProdForm" type="submit" name="nombre" value="addproduct" class="btn btn-success">
-                <i class="bi bi-save"></i>
-                Save
-            </button>
-        </div>
     
-<form id="addProdForm" method="post">
+<form id="addProdForm" method="post" class="mt-3">
     {% csrf_token %}
 	<input type="hidden" name="IdPedido" id="pedido-id">
     <div class="modal-body pt-0">
@@ -55,38 +49,27 @@
       <textarea id='pedido-notas' class="form-control" readonly></textarea>
     </div>
   </div>
-  
-  <div class="mb-3 mt-3 row">
+
+
+  <div class="mb-3 mt-3 row" hidden>
     <label class="col-sm-2 col-form-label" readonly>Service</label>
     <div class="col-sm-10">
-        <input name="Servicio" id="pedido-servicios" type="checkbox" class="form-check-input">
+        <select  name="Servicio" id="pedido-servicios" class="form-select" aria-label="Default select example">
+		<option disabled selected value> -- select an option -- </option>
+		{% for servicio in servicios %}
+		<option value='{{ servicio.IdServicio }}' disabled>{{ servicio.Tipo }}</option>
+		{% endfor%}
+        </select>
     </div>
   </div>
   <p>{{ servicios.0_IdServicio }}</p>
-
-  <div class="mb-3 mt-3 row">
+  <div class="mb-3 mt-3 row" hidden>
     <label  class="col-sm-2 col-form-label">Cancel</label>
     <div class="col-sm-10">
       <input name="Cancel" id="pedido-cancelado" type="checkbox" class="form-check-input">
     </div>
   </div>
-
-  <div class="mb-3 mt-3 row">
-    <label  class="col-sm-2 col-form-label">Confirmed by customer</label>
-    <div class="col-sm-10">
-      <input name="Confirmed_by_customer" id="confirmed-by-customer" type="checkbox" class="form-check-input">
-    </div>
-  </div>
-
-<div class="mb-3 mt-3 row">
-    <label  class="col-sm-2 col-form-label">In Production</label>
-    <div class="col-sm-10">
-      <input name="In_production" id="in-production" type="checkbox" class="form-check-input">
-    </div>
-  </div>
-
-
-  <div class="mb-3 mt-3 row">
+  <div class="mb-3 mt-3 row" hidden>
     <label  class="col-sm-2 col-form-label">State</label>
     <div class="col-sm-10">
         <select  name="Estado" id="pedido-estados" class="form-select" aria-label="Default select example">
@@ -97,45 +80,17 @@
         </select>
     </div>
   </div>
+  
+
   <div class="mb-3 mt-3 row">
-    <label class="col-sm-2 col-form-label" >Obs</label>
+    <label class="col-sm-2 col-form-label" readonly>Obs</label>
     <div class="col-sm-10">
-      <textarea name="Observacion" id='pedido-observacion' class="form-control">
-      </textarea>
+      <textarea name="Observacion" id='pedido-observacion' class="form-control" readonly></textarea>
     </div>
   </div>
     </div>
     <!-- ADD PRODUCT -->
   <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-<div class="row mt-3">
-	<div class="row col-lg-7 mt-sm-2">
-	    <div class="col-lg-3 col-sm-3">
-	        <label>Product</label>
-	    </div>
-	    <div class="col-lg-9 col-sm-9">
-	        <div class="form-group">
-				<input id="pname" type="text" class="form-control" />
-	        </div>
-	    </div>
-	</div>
-	<div class="row col-lg-4 mt-sm-2">
-	    <div class="col-lg-4 col-sm-3">
-	        <label>Quantity</label>
-	    </div>
-	    <div class="col-lg-8 col-sm-9">
-	        <div class="form-group">
-	            <input id="pquantity" type="number" value='1' class="form-control" />
-	        </div>
-	    </div>
-	</div>
-	<div class="row col-lg-2 mt-sm-2">
-	    <div class="col-lg-12 col-lg-offset-2">
-	        <button id="addBtn" type="button" class="addBtn btn btn-primary">
-	            Add
-	        </button>
-	    </div>
-	</div>
-</div>
 <div class="row mt-3">
 	<div class="col-lg-12">
 	    <table id="example" class="table table-bordered">
@@ -143,11 +98,9 @@
 	            <tr>
 	                <th class="col-lg-7 text-center">Product</th>
 	                <th class="col-lg-3 text-center">Quantity</th>
-	                <th class="col-lg-1 text-center">Delete</th>
 	            </tr>
 	        </thead>
-	        <tbody>
-				               
+	        <tbody class="lectura">
 	        </tbody>
 	    </table>
 	    </div>
