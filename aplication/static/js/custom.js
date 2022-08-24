@@ -87,7 +87,7 @@ function FillExport(){
 document.getElementById('buscar').addEventListener('input',(event)=>{
     buscando=event.target.value.toLowerCase()
     for(let fila of document.getElementById('filastabla').children){
-        texto=fila.children[5].innerText.toLowerCase()
+        texto=fila.children[7].innerText.toLowerCase()
         fila.hidden=!texto.includes(buscando)
     }
     FillExport()
