@@ -74,7 +74,7 @@ def home(request): #acercade
         Q(Fecha__lte = FechaFinal)&
         Q(NombreCliente__icontains=search) |
         Q(Telefono__icontains=search)
-        ).distinct().order_by('Fecha','Hora')
+        ).distinct().order_by('Fecha','Hora','IdPedidoSquare')
         ctx={
             'pedidos':pedidos,
             'search':search,
@@ -84,13 +84,13 @@ def home(request): #acercade
         if request.user.admin_app:
             pedidos=Pedido.objects.filter(
             Fecha__gte=FechaActual,
-            Fecha__lte=FechaFinal).order_by('Fecha','Hora')
+            Fecha__lte=FechaFinal).order_by('Fecha','Hora','IdPedidoSquare')
         else:
             pedidos=Pedido.objects.filter(
                 Servicio_id__Tipo='D',
                 Cancelado=False,
                 Fecha__gte=FechaActual,
-                Fecha__lte=FechaFinal).order_by('Fecha','Hora') 
+                Fecha__lte=FechaFinal).order_by('Fecha','Hora','IdPedidoSquare') 
         search=''
         ctx={
             'pedidos':pedidos,
