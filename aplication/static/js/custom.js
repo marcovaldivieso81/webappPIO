@@ -63,7 +63,19 @@ document.addEventListener("input",(event) => {
         return}
     StartFecha("FechaInicialSinc","FechaFinalSinc")
     document.getElementById('alerta2').hidden = false
+	document.getElementById('spinersinc').hidden = false
 });
+
+//DESPLIEGA SPINNER
+//
+
+sincButton=document.getElementById('sic-button')
+sincButton.addEventListener("click",spiner)
+
+function spiner(){
+	document.getElementById('spinersinc').hidden = false
+}
+
 
 // INICIA FECHA DEFAULT DEL FORMULARIO
 //

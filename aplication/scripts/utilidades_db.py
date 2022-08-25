@@ -178,7 +178,7 @@ def guarda_articulos():
                 #print('Articulo guardado ...')
                 variantes = item_data['variations']
                 for variante in variantes:
-                    print('--------------------------------------')
+                 #   print('--------------------------------------')
                     v_data = variante['item_variation_data']
                     data_variante ={
                             'IdArticuloSquare':data_articulo['IdArticuloSquare'],
@@ -209,7 +209,7 @@ def guarda_articulos():
                     "IdMoneda"=venta_variante."IdMoneda" ''',data_variante)
                     connection.commit()
                     #print('Variante guardada')
-                print('======================================')
+                #print('======================================')
         connection.close()
     except Exception as ex:
         print(ex)
