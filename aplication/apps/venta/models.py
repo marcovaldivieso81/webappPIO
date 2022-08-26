@@ -72,7 +72,7 @@ class Pedido(models.Model):
     Articulos = models.ManyToManyField(Variante,through='pedido_variante')
     Notas = models.TextField()
     Servicio = models.ForeignKey(to=Servicio, on_delete=models.CASCADE,blank=True,null=True)
-    Estado = models.ForeignKey(to=Estado, on_delete=models.CASCADE,blank=True,null=True,default='Pending')
+    Estado = models.ForeignKey(to=Estado, on_delete=models.CASCADE,blank=True,null=True,default='New')
     Cancelado=models.BooleanField(default=False)
     Confirmed_by_customer=models.BooleanField(default=False)
     In_Production=models.BooleanField(default=False)

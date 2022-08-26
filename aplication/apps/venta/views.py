@@ -116,9 +116,9 @@ def api_productos(request):
         pedidos=list(pedido_variante.objects.filter(pedido_id=IdPedido).values('cantidad','variante_id__IdArticulo__Descripcion','variante_id__Descripcion','variante_id'))
         #print(pedidos)
         ValorServicio=str(ContenidoPedido.Servicio) =='D'
-        print(type(ContenidoPedido.Servicio))
-        print(ValorServicio)
-        print('----')
+        #print(type(ContenidoPedido.Servicio))
+        #print(ValorServicio)
+        #print('----')
         ctx={
                 'Observacion':ContenidoPedido.Observacion,
                 'Notas':ContenidoPedido.Notas,
@@ -183,8 +183,10 @@ def ExportaExcel(request):
         for pedido in lista_pedidos: 
             variantes=pedido.get('ListaPedidos')
             if len(variantes)==0:
-                variantes=[{'variante_id__Descripcion':'','cantidad':'' }]
+                variantes=[{'variante_id__Descripcion':'','cantidad':'','variante_id__IdArticulo__Descripcion':'' }]
             for variante in variantes:
+                print(variante)
+                print('-----------')
                 ws.cell(row=cont,column=1).value=pedido['Fecha']
                 ws.cell(row=cont,column=2).value=pedido['Estado']
                 ws.cell(row=cont,column=3).value=pedido['Hora']
@@ -194,11 +196,9 @@ def ExportaExcel(request):
                 ws.cell(row=cont,column=7).value=pedido['Telefono']
                 ws.cell(row=cont,column=8).value=pedido['Direccion']
                 ws.cell(row=cont,column=9).value=pedido['Notas']
-                ws.cell(row=cont,column=10).value=variante['variante_id__Descripcion']
+                ws.cell(row=cont,column=10).value=variante['variante_id__IdArticulo__Descripcion']+' - '+variante['variante_id__Descripcion']
                 ws.cell(row=cont,column=11).value=variante['cantidad']
                 ws.cell(row=cont,column=12).value=pedido['Observacion']
-
-
                 cont+=1
         nombre_archivo="ReportePedidos.xlsx"
         response= HttpResponse(content_type='application/ms-excel')

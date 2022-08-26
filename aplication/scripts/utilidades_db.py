@@ -41,7 +41,7 @@ async def obtiene_lista_citas(inicio,fin):
             'Fecha' : cita['start_at'][0:10],
             'Hora' : cita['start_at'][-9:-1],
             'Observacion':'',
-            'Estado': 'Pending',
+            'Estado': 'New',
             'Cancelado':False,
             'Confirmed_by_customer':False,
             'In_Production':False
