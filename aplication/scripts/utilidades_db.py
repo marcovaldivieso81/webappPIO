@@ -22,7 +22,7 @@ async def obtiene_lista_citas(inicio,fin):
     lista_citas=[]
     try:
         connection=conexion()
-        print('Conexión exitosa a db')
+        #print('Conexión exitosa a db')
         cursor = connection.cursor()
         for cita in citas_square:
             cursor.execute('''SELECT "Version" 
@@ -68,7 +68,7 @@ def guarda_citas(inicio,fin):
     if len(lista)>0:
         try:
             connection=conexion()
-            print('Conexión exitosa a db')
+            #print('Conexión exitosa a db')
             cursor = connection.cursor()
             for item in lista:
                 cursor.execute('''INSERT INTO 
@@ -97,7 +97,7 @@ def guarda_citas(inicio,fin):
                     %(Observacion)s
                     )''',item)
                 connection.commit() 
-                print('Cargando dato ...')
+                #print('Cargando dato ...')
                 ## ACA SE ACTUALIZA LOS PEDIDOS
                 cursor.execute('''INSERT INTO 
                         venta_pedido(
@@ -135,8 +135,8 @@ def guarda_citas(inicio,fin):
                         ''',item)
                 #################################
             connection.close()
-            print('Guardado de datos exitoso')
-            print('Conexion cerrada a db')
+            #print('Guardado de datos exitoso')
+            #print('Conexion cerrada a db')
         except Exception as ex:
             #print(ex)
             raise
@@ -147,7 +147,7 @@ def guarda_articulos():
     articulos = square_articulos()['objects']
     try:
         connection=conexion()
-        print('Conexión exitosa a db')
+        #print('Conexión exitosa a db')
         cursor = connection.cursor()
         for articulo in articulos:
             item_data = articulo.get('item_data')
@@ -156,10 +156,11 @@ def guarda_articulos():
                 if desc.isdigit():
                     pass
                 else:
+                    #print(articulo['is_deleted'])
+                    #print('-------------')
                     data_articulo={'IdArticuloSquare': articulo['id'],
                                     'Descripcion': item_data['name']}
-
-                cursor.execute('''INSERT INTO 
+                    cursor.execute('''INSERT INTO 
                         venta_articulo(
                         "IdArticuloSquare",
                         "Descripcion") 
@@ -171,42 +172,50 @@ def guarda_articulos():
                         DO UPDATE SET 
                         "Descripcion"  = venta_articulo."Descripcion"
                         ''',data_articulo)
-                connection.commit()
+                    connection.commit()
                 #print('Articulo guardado ...')
-                variantes = item_data['variations']
-                for variante in variantes:
+                    variantes = item_data['variations']
+                    for variante in variantes:
                  #   print('--------------------------------------')
-                    v_data = variante['item_variation_data']
-                    data_variante ={
+                        v_data = variante['item_variation_data']
+                    #print('---------')
+                        if(variante['is_deleted']):
+                            print(variante['is_deleted'])
+                            print('---------')
+                        data_variante ={
                             'IdArticuloSquare':data_articulo['IdArticuloSquare'],
-                            'IdVarianteSquare': v_data['item_id'],
+                            'IdVarianteSquare': variante['id'],
                             'Descripcion':v_data['name'],
                             'PrecioUnitario': v_data['price_money']['amount'],
-                            'IdMoneda': v_data['price_money']['currency']
+                            'IdMoneda': v_data['price_money']['currency'],
+                            'Activo':variante['is_deleted']
                             }
-                    cursor.execute('''INSERT INTO 
-                    venta_variante(
-                    "IdVarianteSquare",
-                    "Descripcion",
-                    "IdArticulo_id",
-                    "PrecioUnitario",
-                    "IdMoneda") 
-                    VALUES (
-                    %(IdVarianteSquare)s,
-                    %(Descripcion)s,
-                    %(IdArticuloSquare)s,
-                    %(PrecioUnitario)s,
-                    %(IdMoneda)s)
-                    ON CONFLICT (
-                    "IdVarianteSquare") 
-                    DO UPDATE SET 
-                    "Descripcion"  = venta_variante."Descripcion", 
-                    "IdArticulo_id" = venta_variante."IdArticulo_id",
-                    "PrecioUnitario" = venta_variante."PrecioUnitario", 
-                    "IdMoneda"=venta_variante."IdMoneda" ''',data_variante)
-                    connection.commit()
-                    #print('Variante guardada')
-                #print('======================================')
+                        cursor.execute('''INSERT INTO 
+                            venta_variante(
+                            "IdVarianteSquare",
+                            "Descripcion",
+                            "IdArticulo_id",
+                            "PrecioUnitario",
+                            "IdMoneda",
+                            "Activo") 
+                            VALUES (
+                            %(IdVarianteSquare)s,
+                            %(Descripcion)s,
+                            %(IdArticuloSquare)s,
+                            %(PrecioUnitario)s,
+                            %(IdMoneda)s,
+                            %(Activo)s)
+                            ON CONFLICT (
+                            "IdVarianteSquare") 
+                            DO UPDATE SET 
+                            "Descripcion"  = venta_variante."Descripcion", 
+                            "IdArticulo_id" = venta_variante."IdArticulo_id",
+                            "PrecioUnitario" = venta_variante."PrecioUnitario", 
+                            "IdMoneda"=venta_variante."IdMoneda",
+                            "Activo"=venta_variante."Activo" ''',data_variante)
+                        connection.commit()
+                            #print('Variante guardada')
+                            #print('======================================')
         connection.close()
     except Exception as ex:
         print(ex)

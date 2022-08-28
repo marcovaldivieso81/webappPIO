@@ -20,9 +20,9 @@ def square_bookings(inicio,fin):
             }
     headers = {'Authorization': TOKEN_SQUARE}
     #print(TOKEN_SQUARE)
-    print('Inicio consumo de api')
+    #print('Inicio consumo de api')
     response = requests.get(URL_SQUARE+'bookings',params=args,headers=headers)
-    print('Consumo de api realizado')
+    #print('Consumo de api realizado')
     if response.status_code == 200:
         content = response.content
         response_decode = json.loads(content.decode('utf8'))
@@ -51,7 +51,6 @@ def square_articulos():
     if response.status_code == 200:
         content = response.content
         response_decode = json.loads(content.decode('utf8'))
+        #print(response_decode)
         return response_decode
 
-
-#print(obtiene_lista_citas("2022-07-26T14:00:00Z","2022-07-26T23:59:00Z"))
