@@ -19,13 +19,11 @@ def conexion():
 
 async def obtiene_lista_citas(inicio,fin):
     citas_square=square_bookings(inicio,fin)
-    #print(citas_square)
     lista_citas=[]
     try:
         connection=conexion()
         print('Conexión exitosa a db')
         cursor = connection.cursor()
-        #consultas_customer = []
         for cita in citas_square:
             cursor.execute('''SELECT "Version" 
                     FROM migracion_citasquare 
@@ -47,10 +45,6 @@ async def obtiene_lista_citas(inicio,fin):
             'In_Production':False
             }
             lista_citas.append(datos_cita)
-
-            #datos_cita.update(datos_customer)
-            #print('procesando datos ...')
-            #lista_citas.append(datos_cita)
         connection.close()       
         datos_customer = await asyncio.gather(*(square_customer(datos_cita['customer_id']) for datos_cita in lista_citas))
         citas_exitosas = []
@@ -60,6 +54,9 @@ async def obtiene_lista_citas(inicio,fin):
                 citas_exitosas.append(datos_cita)
             else:
                 ## guardo en base datos
+                print('-----------')
+                print(f"Cita_id = {datos_cita['IdRef']} Customer_id = {datos_cita['customer_id']}")
+                print('----------')
                 pass
     except Exception as ex:
         raise

@@ -13,7 +13,7 @@ LOCATION_ID_SQUARE = env.str('LOCATION_ID_SQUARE')
 TOKEN_SQUARE = 'Bearer '+env.str('TOKEN_SQUARE')
 
 def square_bookings(inicio,fin):
-    args = {'limit':100,
+    args = {'limit':1000,
             'location_id': LOCATION_ID_SQUARE,
             'start_at_min': inicio, # "2022-07-21T14:00:00Z",
             'start_at_max': fin, #"2022-07-21T23:59:00Z"
@@ -30,7 +30,6 @@ def square_bookings(inicio,fin):
 
 async def square_customer(customer_id):
     headers = {'Authorization': TOKEN_SQUARE}
-    #response = requests.get(URL_SQUARE+'customers'+'/'+customer_id,headers=headers)
     async with aiohttp.ClientSession() as session:
         async with session.get(URL_SQUARE+'customers'+'/'+customer_id,headers=headers) as response:
             #print(response.status)
@@ -44,8 +43,6 @@ async def square_customer(customer_id):
                         'Correo' : customer.get('email_address','sinmail@sinmail.com'),
                         }
             return (True,datos_customer)
-
-
         
 def square_articulos():
     headers = {'Authorization': TOKEN_SQUARE}

@@ -27,6 +27,7 @@ class Variante(models.Model):
     Nota1=models.CharField(max_length=500,null=True,blank=True)
     Nota2=models.CharField(max_length=500,null=True,blank=True)
     Nota3=models.CharField(max_length=500,null=True,blank=True)
+    Activo=models.BooleanField(default=True)
     FechaCreacion=models.DateTimeField(auto_now_add=True,null=True,blank=True)
     UsuarioCreacion=models.CharField(max_length=100,null=True,blank=True)
     FechaModificacion=models.DateTimeField(auto_now=True,null=True,blank=True)
