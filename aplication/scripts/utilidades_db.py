@@ -24,12 +24,22 @@ async def obtiene_lista_citas(inicio,fin):
         connection=conexion()
         #print('Conexión exitosa a db')
         cursor = connection.cursor()
+        cursor2 = connection.cursor()
         for cita in citas_square:
             cursor.execute('''SELECT "Version" 
                     FROM migracion_citasquare 
                     WHERE "IdRef"=%(id)s AND "Version"=%(version)s''',cita)
-            if cursor.fetchone():
+            cursor2.execute('''SELECT "IdPedidoSquare"
+                            FROM venta_pedido
+                            WHERE "IdPedidoSquare"=%(id)s''',cita)
+            #print(cursor2.fetchone())
+            #print(cursor.fetchone())
+            #print('-----------------------')
+            if cursor.fetchone() and (cursor2.fetchone() is not None):
                 continue
+            #print(cursor.fetchone())
+            #print(cita['id'])
+            #print('-------')
             datos_cita = {
             'IdRef' : cita['id'],
             'customer_id':cita['customer_id'],
@@ -179,9 +189,9 @@ def guarda_articulos():
                  #   print('--------------------------------------')
                         v_data = variante['item_variation_data']
                     #print('---------')
-                        if(variante['is_deleted']):
-                            print(variante['is_deleted'])
-                            print('---------')
+                        #if(variante['is_deleted']):
+                            #print(variante['is_deleted'])
+                            #print('---------')
                         data_variante ={
                             'IdArticuloSquare':data_articulo['IdArticuloSquare'],
                             'IdVarianteSquare': variante['id'],

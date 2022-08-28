@@ -17,6 +17,8 @@ def home(request): #acercade
         if request.POST['nombre'] == 'sinc':
             FechaActual=request.POST['FechaInicial']
             FechaFinal=request.POST['FechaFinal']
+            #print((FechaActual,FechaFinal))
+            #print('----------')
             guarda_articulos()
             guarda_citas(FechaActual+'T00:00:00Z', FechaFinal+'T23:59:00Z')
             return redirect(f'./?initial={FechaActual}&final={FechaFinal}')
