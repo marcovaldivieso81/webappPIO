@@ -1,7 +1,7 @@
 /////////////////////
 const DEFAULTS = {
   threshold: 2,
-  maximumItems: 20,
+  maximumItems: 200,
   highlightTyped: true,
   highlightClass: 'text-primary',
   label: 'label',
