@@ -108,7 +108,8 @@ FillExport()
 for(let fila of document.getElementById('filastabla').children){
     contentFila = fila.children[0].children[0]
     FechaFila = contentFila.innerHTML.split('-')
-    FechaFila = new Date(FechaFila[2],FechaFila[1]-1,FechaFila[0])
+    FechaFila = new Date(FechaFila[2],FechaFila[0]-1,FechaFila[1])
+	console.log(FechaFila)
     FechaActual = new Date()
     if(FechaActual.toDateString()==FechaFila.toDateString()){
         contentFila.style.backgroundColor = "#40E0D0"       
