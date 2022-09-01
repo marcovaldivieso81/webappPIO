@@ -35,7 +35,7 @@ class CitaSquare(models.Model):
     UsuarioModificacion=models.CharField(max_length=100,blank=True,null=True)
     #Eliminado=models.BooleanField(default=False,null=True)#,blank=True,null=True)
     def __str__(self):
-        return self.IdRef+' -> '+self.Nombre+' / '+self.Direccion
+        return self.IdRef+' -> '+self.Nombre
 
 class Error(models.Model):
     Codigo=models.CharField(max_length=10)
