@@ -136,7 +136,7 @@ Ventas
           <td class="text-center" style= "color:{{pedido.Estado.color}}" >
               <i class="bi bi-circle-fill"></i>
           </td>
-        <td>{{ pedido.Hora }}</td>
+        <td>{{ pedido.Hora|date:"g:i a" }}</td>
          <td class="text-center">
              {% if pedido.Servicio.Tipo == 'D' %}
 			    <i class="bi bi-check-circle-fill"></i>
