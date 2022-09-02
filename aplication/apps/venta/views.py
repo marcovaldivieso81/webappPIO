@@ -129,7 +129,7 @@ def api_productos(request):
                 'Direccion':ContenidoPedido.Direccion,
                 'Confirmed_by_customer':ContenidoPedido.Confirmed_by_customer,
                 'In_Production':ContenidoPedido.In_Production,
-                'FechaHora':ContenidoPedido.Fecha.strftime("%d/%m/%y")+' - ' +ContenidoPedido.Hora.strftime("%H:%m"),
+                'FechaHora':ContenidoPedido.Fecha.strftime("%m/%d/%y")+' - ' +ContenidoPedido.Hora.strftime("%I:%M %p"),
                 'Cancelado':ContenidoPedido.Cancelado,
                 'Estado':ContenidoPedido.Estado_id,
                 'Servicio':ValorServicio,
