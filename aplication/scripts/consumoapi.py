@@ -26,16 +26,16 @@ def ajusta_hora(date,delta):
 #print(resultado)
 
 def square_bookings(inicio,fin):
-    print(inicio)
-    print(fin)
-    print('--------')
+    #print(inicio)
+    #print(fin)
+    #print('--------')
     args = {'limit':1000,
             'location_id': LOCATION_ID_SQUARE,
             'start_at_min': ajusta_hora(inicio,4), # "2022-07-21T14:00:00Z",
             'start_at_max': ajusta_hora(fin,4), #"2022-07-21T23:59:00Z"
             }
     headers = {'Authorization': TOKEN_SQUARE}
-    print(TOKEN_SQUARE)
+    #print(TOKEN_SQUARE)
     #print('Inicio consumo de api')
     response = requests.get(URL_SQUARE+'bookings',params=args,headers=headers)
     #print('Consumo de api realizado')

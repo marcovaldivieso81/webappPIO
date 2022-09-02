@@ -32,10 +32,12 @@ async def obtiene_lista_citas(inicio,fin):
             cursor2.execute('''SELECT "IdPedidoSquare"
                             FROM venta_pedido
                             WHERE "IdPedidoSquare"=%(id)s''',cita)
-            #print(cursor2.fetchone())
+            print(cursor2.fetchone())
+            #dada = cursor.fetchone()
+            #print(dada,cita['id'])
             #print(cursor.fetchone())
             #print('-----------------------')
-            if cursor.fetchone() and (cursor2.fetchone() is not None):
+            if cursor.fetchone() and cursor2.fetchone():
                 continue
             #print(cursor.fetchone())
             #print(cita['id'])
@@ -80,7 +82,9 @@ def guarda_citas(inicio,fin):
             connection=conexion()
             #print('Conexión exitosa a db')
             cursor = connection.cursor()
+            cursor2 = connection.cursor()
             for item in lista:
+                print(item['Nombre'])
                 cursor.execute('''INSERT INTO 
                     migracion_citasquare(
                     "IdRef",
@@ -106,10 +110,9 @@ def guarda_citas(inicio,fin):
                     %(Version)s,
                     %(Observacion)s
                     )''',item)
-                connection.commit() 
                 #print('Cargando dato ...')
                 ## ACA SE ACTUALIZA LOS PEDIDOS
-                cursor.execute('''INSERT INTO 
+                cursor2.execute('''INSERT INTO 
                         venta_pedido(
                         "IdPedidoSquare",
                         "NombreCliente",
@@ -141,8 +144,9 @@ def guarda_citas(inicio,fin):
                         ON CONFLICT (
                         "IdPedidoSquare") 
                         DO UPDATE SET 
-                        "Notas"  = venta_pedido."Notas"
+                        "Notas"  = %(Nota)s
                         ''',item)
+                connection.commit() 
                 #################################
             connection.close()
             #print('Guardado de datos exitoso')
