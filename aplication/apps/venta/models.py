@@ -81,6 +81,14 @@ class Pedido(models.Model):
     FechaCreacion = models.DateTimeField(auto_now_add=True,null=True,blank=True)
     UsuarioCreacion = models.CharField(max_length=100,null=True,blank=True)
     FechaModificacion = models.DateTimeField(auto_now=True,null=True,blank=True)
+    class Meta:
+        verbose_name='Pedido'
+        verbose_name_plural='Pedidos'
+        #db_table='venta_pedido_variante'
+    def __str__(self):
+        return str(self.IdPedidoSquare)
+
+
 
 class pedido_variante(models.Model):
     pedido = models.ForeignKey(Pedido,on_delete=models.CASCADE)
@@ -96,12 +104,19 @@ class pedido_variante(models.Model):
 class PedidoBitacora(models.Model):
     IdPedidoBitacora=models.AutoField(primary_key=True)
     IdPedido=models.ForeignKey(Pedido, on_delete=models.CASCADE)
-    IdEstado=models.IntegerField()
-    Observacion=models.CharField(max_length=500)
+    #IdEstado=models.ForeignKey(Estado, on_delete=models.CASCADE)
+    Observacion=models.TextField(null=True,blank=True,default='modificacion, detalles')
     FechaCreacion=models.DateTimeField(auto_now_add=True)
     UsuarioCreacion=models.CharField(max_length=100)
-    FechaModificacion=models.DateTimeField(auto_now=True)
-    Eliminado=models.BooleanField()
+    #FechaModificacion=models.DateTimeField(auto_now=True)
+    class Meta:
+        verbose_name='Pedido bitacora'
+        verbose_name_plural='Pedidos bitacora'
+        #db_table='venta_pedido_variante'
+    def __str__(self):
+        return str(self.IdPedido_id)
+
+
 
 
 

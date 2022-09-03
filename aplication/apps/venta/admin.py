@@ -26,9 +26,13 @@ class VarianteAdmin(admin.ModelAdmin):
     class Meta:
         model=Variante
 
+class PedidoBitacoraAdmin(admin.ModelAdmin):
+    readonly_fields=('IdPedido','Observacion','UsuarioCreacion','FechaCreacion')
+
+
 admin.site.register(Articulo)
 admin.site.register(Variante, VarianteAdmin)
 admin.site.register(Pedido,PedidoAdmin)
-admin.site.register(PedidoBitacora)
+admin.site.register(PedidoBitacora,PedidoBitacoraAdmin)
 admin.site.register(Estado)
 admin.site.register(Servicio)

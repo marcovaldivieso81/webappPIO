@@ -7,7 +7,7 @@ from django.db.models import Q ## ESTO SIRVE PARA HACER BÚSQUEDA
 from datetime import date, timedelta
 import json
 from openpyxl import Workbook
-from .models import Pedido, Variante, Articulo, Estado, Servicio, pedido_variante
+from .models import Pedido, Variante, Articulo, Estado, Servicio, pedido_variante, PedidoBitacora
 #from apps.seguridad.models import Usuario 
 from scripts.utilidades_db import guarda_citas, guarda_articulos
 # Create your views here.
@@ -20,7 +20,7 @@ def home(request): #acercade
             #print((FechaActual,FechaFinal))
             #print('----------')
             guarda_articulos()
-            guarda_citas(FechaActual+'T00:00:00Z', FechaFinal+'T23:59:00Z')
+            guarda_citas(FechaActual+'T00:00:00Z', FechaFinal+'T23:59:00Z',request.user.username)
             return redirect(f'./?initial={FechaActual}&final={FechaFinal}')
         elif request.POST['nombre'] == 'search':
             search=request.POST['search']
@@ -29,8 +29,8 @@ def home(request): #acercade
             return redirect(f'./?initial={FechaActual}&final={FechaFinal}&search={search}')
         elif request.POST['nombre'] == 'addproduct':
             form=request.POST
-            print(form)
-            print('----------------') 
+            #print(form)
+            #print('----------------') 
             valor_servicio=form.get('Servicio','1650382159084')
             if valor_servicio == 'on':
                 valor_servicio='1658428294592'
@@ -56,6 +56,25 @@ def home(request): #acercade
                     pedido_id=form['IdPedido'],
                     variante_id=producto['name'],
                     cantidad=producto['quantity'])
+            #print('------------')
+            #print(request.user.username)
+            #print('------------')
+            texto=f"Observacion: {form['Observacion']}\n"
+            texto+=f"Estado: {form['Estado']}\n"
+            texto+=f"Servicio: {valor_servicio}\n"
+            texto+=f"Cancelado: {Cancel}\n"
+            texto+=f"Confirmado: {Confirmed_by_customer}\n"
+            texto+=f"Produccion: {In_Production}\n"
+            texto+=f"Direccion: {form.get('pedido-direccion')}\n"
+            texto+=f"\n PRODUCTOS:\n\n"
+            for producto in prod_json:
+                producto=json.loads(producto)
+                texto+=f"{producto['name']} | {producto['quantity']}\n"
+            PedidoBitacora.objects.create(
+                    IdPedido_id=form['IdPedido'],
+                    Observacion=texto,
+                    UsuarioCreacion=request.user.username
+                    )
     Finicial=request.GET.get('initial')
     Ffinal=request.GET.get('final')
     search=request.GET.get('search')
@@ -187,8 +206,8 @@ def ExportaExcel(request):
             if len(variantes)==0:
                 variantes=[{'variante_id__Descripcion':'','cantidad':'','variante_id__IdArticulo__Descripcion':'' }]
             for variante in variantes:
-                print(variante)
-                print('-----------')
+                #print(variante)
+                #print('-----------')
                 ws.cell(row=cont,column=1).value=pedido['Fecha']
                 ws.cell(row=cont,column=2).value=pedido['Estado']
                 ws.cell(row=cont,column=3).value=pedido['Hora']

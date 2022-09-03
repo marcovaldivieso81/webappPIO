@@ -44,7 +44,7 @@ def square_bookings(inicio,fin):
         response_decode = json.loads(content.decode('utf8'))
         lista_citas=[]
         for cita in response_decode['bookings']:
-            print(cita['start_at'])
+            #print(cita['start_at'])
             cita['start_at']=ajusta_hora(cita['start_at'],-4)
             lista_citas.append(cita)
         #print(lista_citas)

@@ -7,7 +7,10 @@ class CitaSquareAdmin(admin.ModelAdmin):
     #search_fields=['titulo']
     readonly_fields=('FechaCreacion','FechaModificacion')
 
+class SincronizacionAdmin(admin.ModelAdmin):
+    readonly_fields=('FechaCreacion','Observacion','UsuarioCreacion')
+
 
 admin.site.register(CitaSquare, CitaSquareAdmin)
 admin.site.register(Error)
-admin.site.register(Sincronizacion)
+admin.site.register(Sincronizacion, SincronizacionAdmin)

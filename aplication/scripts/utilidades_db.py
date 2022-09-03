@@ -1,21 +1,7 @@
 import asyncio
-from pathlib import Path
-import psycopg2
-import environ
+from datetime import datetime
 from .consumoapi import square_bookings, square_customer, square_articulos
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-env=environ.Env()
-environ.Env.read_env(f"{BASE_DIR}/aplication/.env")
-
-def conexion():
-    connection = psycopg2.connect(
-            host = env.str('DATA_BASE_HOST'),
-            user = env.str('DATA_BASE_USER'), 
-            password = env.str('DATA_BASE_PASSWORD'),
-            database = env.str('DATA_BASE_NAME')
-            )
-    return connection
+from .conexion_db import conexion 
 
 async def obtiene_lista_citas(inicio,fin):
     citas_square=square_bookings(inicio,fin)
@@ -32,7 +18,7 @@ async def obtiene_lista_citas(inicio,fin):
             cursor2.execute('''SELECT "IdPedidoSquare"
                             FROM venta_pedido
                             WHERE "IdPedidoSquare"=%(id)s''',cita)
-            print(cursor2.fetchone())
+            #print(cursor2.fetchone())
             #dada = cursor.fetchone()
             #print(dada,cita['id'])
             #print(cursor.fetchone())
@@ -66,16 +52,16 @@ async def obtiene_lista_citas(inicio,fin):
                 citas_exitosas.append(datos_cita)
             else:
                 ## guardo en base datos
-                print('-----------')
-                print(f"Cita_id = {datos_cita['IdRef']} Customer_id = {datos_cita['customer_id']}")
-                print('----------')
+                #print('-----------')
+                #print(f"Cita_id = {datos_cita['IdRef']} Customer_id = {datos_cita['customer_id']}")
+                #print('----------')
                 pass
     except Exception as ex:
         raise
         #print(ex)
     return citas_exitosas
 
-def guarda_citas(inicio,fin):
+def guarda_citas(inicio,fin,usuario='system'):
     lista = asyncio.run(obtiene_lista_citas(inicio,fin))#    
     if len(lista)>0:
         try:
@@ -83,8 +69,11 @@ def guarda_citas(inicio,fin):
             #print('Conexión exitosa a db')
             cursor = connection.cursor()
             cursor2 = connection.cursor()
+            cursorsinc = connection.cursor()
+            texto="PEDIDOS:\n\n"
             for item in lista:
-                print(item['Nombre'])
+                texto += f"{item['IdRef']} - {item['Nombre']}\n"
+                #print(item['Nombre'])
                 cursor.execute('''INSERT INTO 
                     migracion_citasquare(
                     "IdRef",
@@ -146,7 +135,27 @@ def guarda_citas(inicio,fin):
                         DO UPDATE SET 
                         "Notas"  = %(Nota)s
                         ''',item)
-                connection.commit() 
+                connection.commit()
+            datos_sinc={
+                    'Fecha':datetime.now(),
+                    'Texto':texto,
+                    'Usuario':usuario
+                    }
+            #print(datos_sinc)
+            #print('----')
+            cursorsinc.execute('''INSERT INTO 
+                    migracion_sincronizacion(
+                    "FechaCreacion",
+                    "UsuarioCreacion",
+                    "Observacion"
+                    )
+                    VALUES (
+                    %(Fecha)s,
+                    %(Usuario)s,
+                    %(Texto)s
+                    )''',datos_sinc)
+
+            connection.commit()
                 #################################
             connection.close()
             #print('Guardado de datos exitoso')
