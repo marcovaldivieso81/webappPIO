@@ -3,4 +3,5 @@ Description= sinc piononoApp
 
 [Service]
 Type=oneshot
-ExecStart=/var/www/webappPIO/aplication/sinc.sh
+WorkingDirectory=/var/www/webappPIO/aplication
+ExecStart=python3 scripts.automaticsinc
