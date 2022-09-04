@@ -6,8 +6,9 @@ class Sincronizacion(models.Model):
     Observacion=models.TextField(blank=True,null=True)
     FechaCreacion=models.DateTimeField(auto_now_add=True,blank=True,null=True)
     UsuarioCreacion=models.CharField(max_length=100,blank=True,null=True)
+    Rango=models.CharField(max_length=100)
     def __str__(self):
-        return self.FechaCreacion.strftime('%Y-%m-%d %H:%M')+ ' ' +self.UsuarioCreacion
+        return self.FechaCreacion.strftime('%Y-%m-%d %I:%M %p')+ ' ' +self.UsuarioCreacion
 
 
 class CitaSquare(models.Model):

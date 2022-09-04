@@ -139,7 +139,8 @@ def guarda_citas(inicio,fin,usuario='system'):
             datos_sinc={
                     'Fecha':datetime.now(),
                     'Texto':texto,
-                    'Usuario':usuario
+                    'Usuario':usuario,
+                    'Rango':inicio+' - '+fin
                     }
             #print(datos_sinc)
             #print('----')
@@ -147,12 +148,14 @@ def guarda_citas(inicio,fin,usuario='system'):
                     migracion_sincronizacion(
                     "FechaCreacion",
                     "UsuarioCreacion",
-                    "Observacion"
+                    "Observacion",
+                    "Rango"
                     )
                     VALUES (
                     %(Fecha)s,
                     %(Usuario)s,
-                    %(Texto)s
+                    %(Texto)s,
+                    %(Rango)s
                     )''',datos_sinc)
 
             connection.commit()
