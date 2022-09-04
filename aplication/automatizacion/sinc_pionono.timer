@@ -2,7 +2,7 @@
 Description= sinc piononoApp
 
 [Timer]
-OnCalendar=*-*-* 00:00
+OnCalendar=*-*-* *:0/20
 OnStartupSec=60
 Persistent=True
 
