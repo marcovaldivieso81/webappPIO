@@ -1,0 +1,6 @@
+[Unit]
+Description= sinc piononoApp
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 -m /var/www/webappPIO/aplication/scripts.automaticsinc

@@ -1,0 +1,10 @@
+[Unit]
+Description= sinc piononoApp
+
+[Timer]
+OnCalendar=*-*-* 00:00
+OnStartupSec=60
+Persistent=True
+
+[Install]
+WantedBy=timers.target
