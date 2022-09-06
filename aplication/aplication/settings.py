@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.seguridad',
-    #'apps.maestra',
     'apps.venta',
     'apps.migracion',
     'colorfield',
