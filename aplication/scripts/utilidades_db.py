@@ -170,7 +170,13 @@ def guarda_citas(inicio,fin,usuario='system'):
         print('No hay datos nuevos')
 
 def guarda_articulos():
-    articulos = square_articulos()['objects']
+    consulta = square_articulos()
+    articulos = consulta['objects']
+    cursor = consulta['cursor'] 
+    while cursor:
+        consulta = square_articulos(cursor)
+        articulos += consulta['objects']
+        cursor = consulta.get('cursor',False)
     try:
         connection=conexion()
         #print('Conexión exitosa a db')

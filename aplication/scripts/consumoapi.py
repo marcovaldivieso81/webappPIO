@@ -75,13 +75,28 @@ async def square_customer(customer_id):
                         }
             return (True,datos_customer)
         
-def square_articulos():
+def square_articulos(cursor=''):
     headers = {'Authorization': TOKEN_SQUARE}
-    args = {'type':'ITEM'}
+    args = {'type':'ITEM','cursor':cursor}
     response = requests.get(URL_SQUARE+'catalog/list',params = args,headers = headers)
     if response.status_code == 200:
         content = response.content
         response_decode = json.loads(content.decode('utf8'))
-        #print(response_decode)
         return response_decode
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
