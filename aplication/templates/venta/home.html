@@ -1,5 +1,6 @@
 {% extends "aplication/base.html" %}
 {% load static %}
+{% load extra_filters %}
 {% block titulo %}
 Ventas
 {% endblock%}
@@ -160,11 +161,16 @@ Ventas
         <td>
 			{{pedido.NombreCliente}}
 			{% if pedido.Telefono != 'sin direccion'%}
-			/ {{pedido.Telefono}}
+			
+			/ <a href="tel:{{pedido.Telefono}}">{{pedido.Telefono}}</a>
+			
 			{% endif %}
 			{% if pedido.Direccion %}
-			/ {{pedido.Direccion}} </td>
+			/<a href="https://maps.google.com/?q={{ pedido.Direccion|to_plus }}" target="_blank">
+				{{pedido.Direccion}}
+			</a>
 			{% endif %}
+		</td>
 		<td>
 <button class="btn btn-block btn-success" data-bs-toggle="modal" data-bs-target="#detailModal" >
 			<i class="bi bi-bookmark-plus"></i>

@@ -11,6 +11,7 @@ from .models import Pedido, Variante, Articulo, Estado, Servicio, pedido_variant
 #from apps.seguridad.models import Usuario 
 from scripts.utilidades_db import guarda_citas, guarda_articulos
 # Create your views here.
+
 @login_required
 def home(request): #acercade
     if request.method == 'POST':
@@ -96,6 +97,7 @@ def home(request): #acercade
         Q(NombreCliente__icontains=search) |
         Q(Telefono__icontains=search)
         ).distinct().order_by('Fecha','Hora','IdPedidoSquare')
+
         ctx={
             'pedidos':pedidos,
             'search':search,
@@ -113,6 +115,7 @@ def home(request): #acercade
                 Fecha__gte=FechaActual,
                 Fecha__lte=FechaFinal).order_by('Fecha','Hora','IdPedidoSquare') 
         search=''
+            
         ctx={
             'pedidos':pedidos,
             'search':search,
