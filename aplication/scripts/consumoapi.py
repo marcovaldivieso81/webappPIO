@@ -32,8 +32,8 @@ def square_bookings(inicio,fin):
     ## EN HORARIO INICIAL ESTABA EN 4 EL AJUSTA HORA
     args = {'limit':1000,
             'location_id': LOCATION_ID_SQUARE,
-            'start_at_min': ajusta_hora(inicio,3), # "2022-07-21T14:00:00Z",
-            'start_at_max': ajusta_hora(fin,3), #"2022-07-21T23:59:00Z"
+            'start_at_min': ajusta_hora(inicio,4), # "2022-07-21T14:00:00Z",
+            'start_at_max': ajusta_hora(fin,4), #"2022-07-21T23:59:00Z"
             }
     headers = {'Authorization': TOKEN_SQUARE}
     #print(TOKEN_SQUARE)
@@ -46,7 +46,7 @@ def square_bookings(inicio,fin):
         lista_citas=[]
         for cita in response_decode['bookings']:
             #print(cita['start_at'])
-            cita['start_at']=ajusta_hora(cita['start_at'],-3)
+            cita['start_at']=ajusta_hora(cita['start_at'],-4)
             lista_citas.append(cita)
         #print(lista_citas)
         #for cita in lista_citas:
