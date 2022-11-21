@@ -20,7 +20,7 @@ def conexion2():
             host = env.str('DATA_BASE_HOST'),
             user = env.str('DATA_BASE_USER'), 
             password = env.str('DATA_BASE_PASSWORD'),
-            database = 'piononotest'
+            database = env.str('DB_NAME_OLD')
             )
     return connection
 
