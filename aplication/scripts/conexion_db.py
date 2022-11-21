@@ -15,4 +15,13 @@ def conexion():
             )
     return connection
 
+def conexion2():
+    connection = psycopg2.connect(
+            host = env.str('DATA_BASE_HOST'),
+            user = env.str('DATA_BASE_USER'), 
+            password = env.str('DATA_BASE_PASSWORD'),
+            database = 'piononotest'
+            )
+    return connection
+
 
