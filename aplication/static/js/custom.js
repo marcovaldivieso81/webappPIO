@@ -96,7 +96,7 @@ function FillExport(){
 document.getElementById('buscar').addEventListener('input',(event)=>{
     buscando=event.target.value.toLowerCase()
     for(let fila of document.getElementById('filastabla').children){
-        texto=fila.children[7].innerText.toLowerCase()
+        texto=fila.children[7].textContent.toLowerCase()
         fila.hidden=!texto.includes(buscando)
     }
     FillExport()
@@ -109,7 +109,7 @@ for(let fila of document.getElementById('filastabla').children){
     contentFila = fila.children[0].children[0]
     FechaFila = contentFila.innerHTML.split('-')
     FechaFila = new Date(FechaFila[2],FechaFila[0]-1,FechaFila[1])
-	console.log(FechaFila)
+	//console.log(FechaFila)
     FechaActual = new Date()
     if(FechaActual.toDateString()==FechaFila.toDateString()){
         contentFila.style.backgroundColor = "#40E0D0"       
@@ -180,8 +180,8 @@ Filas.forEach((fila) => {
 rowTemplateLectura = document.getElementById('template-prod-lectura').content
 function productRowLectura(name,quantity){
 	row=rowTemplateLectura.cloneNode(true)
-	row.querySelector('.pname-td').innerText=name
-	row.querySelector('.pquantity-td').innerText=quantity
+	row.querySelector('.pname-td').textContent=name
+	row.querySelector('.pquantity-td').textContent=quantity
 	return row
 }
 //	CONTRUYE ROW DE PRODUCTO DESDE TEMPLATE
@@ -189,8 +189,8 @@ function productRowLectura(name,quantity){
 rowTemplate = document.getElementById('template-prod').content
 function productRow(name,id,quantity){
 	row=rowTemplate.cloneNode(true)
-	row.querySelector('.pname-td').innerText=name
-	row.querySelector('.pquantity-td').innerText=quantity
+	row.querySelector('.pname-td').textContent=name
+	row.querySelector('.pquantity-td').textContent=quantity
 	row.querySelector('input').value=JSON.stringify({name:id, quantity})
 	return row
 }
