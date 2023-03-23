@@ -6,6 +6,22 @@ import aiohttp
 from datetime import datetime
 from datetime import timedelta
 
+## conexion db 
+
+from .conexion_db import conexion 
+
+connection=conexion()
+#print('Conexión exitosa a db')
+cursor = connection.cursor()
+sql = "SELECT * FROM configuracion_zonahoraria" 
+data = cursor.execute(sql)
+data = cursor.fetchone()
+#print('--------')
+deltahora = data[1]
+#print('--------')
+#connection.close()
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 env=environ.Env()
 environ.Env.read_env(f"{BASE_DIR}/aplication/.env")
@@ -20,20 +36,12 @@ def ajusta_hora(date,delta):
     date_fin=date_fin.strftime("%Y-%m-%d")+'T'+date_fin.strftime("%H:%M:%S")+'Z'
     return date_fin
 
-#input="2022-07-21T14:00:00Z"
-#print(input)
-#resultado=ajusta_hora(input,-5)
-#print(resultado)
-
 def square_bookings(inicio,fin):
-    #print(inicio)
-    #print(fin)
-    #print('--------')
     ## EN HORARIO INICIAL ESTABA EN 4 EL AJUSTA HORA
     args = {'limit':1000,
             'location_id': LOCATION_ID_SQUARE,
-            'start_at_min': ajusta_hora(inicio,5), # "2022-07-21T14:00:00Z",
-            'start_at_max': ajusta_hora(fin,5), #"2022-07-21T23:59:00Z"
+            'start_at_min': ajusta_hora(inicio,deltahora), # "2022-07-21T14:00:00Z",
+            'start_at_max': ajusta_hora(fin,deltahora), #"2022-07-21T23:59:00Z"
             }
     headers = {'Authorization': TOKEN_SQUARE}
     #print(TOKEN_SQUARE)

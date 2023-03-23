@@ -2,23 +2,31 @@
     <div class=" mx-1 fixed-top mt-5">
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 mt-3 align-items-sm-start" id="menu">
             <li class="nav-item">
-                <a href="#" class="nav-link link-light align-middle px-0">
+                <a href="{% url 'venta' %}" class="nav-link link-light align-middle px-0">
                             <i class="fs-4 bi-house"></i>
                             <span class="ms-1 d-none d-lg-inline">Home</span>
                         </a>
                     </li>
-                <a href="#submenu3" data-bs-toggle="collapse" class="nav-link link-light px-0 align-middle">
+                <a href="#" data-bs-toggle="collapse" class="nav-link link-light px-0 align-middle">
                             <i class="fs-4 bi-grid"></i>
                             <span class="ms-1 d-none d-lg-inline">Sales</span> </a>
                             <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
                             <li class="w-100">
-                                <a href="#" class="nav-link link-light px-0">
+                                <a href="{% url 'venta' %}" class="nav-link link-light px-0">
                                     <i class="fs-4 bi-receipt"></i>
                                     <span class="d-none d-lg-inline">Order</span></a>
                             </li>
                             </ul>
                     </li>
                     {% if request.user.admin_app %}
+            <li class="nav-item">
+                <a href="{% url 'configuracion' %}" class="nav-link link-light align-middle px-0">
+                            <i class="fs-4 bi-tools"></i>
+                            <span class="ms-1 d-none d-lg-inline">Tools</span>
+                        </a>
+                    </li>
+
+
                     <li>
                         <a href="{% url 'admin:index'  %}" class="nav-link link-light px-0 align-middle">
                             <i class="fs-4 bi-gear"></i>

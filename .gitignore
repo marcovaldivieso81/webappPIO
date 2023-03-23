@@ -135,3 +135,13 @@ dmypy.json
 
 # archivos .lock*
 .~lock*
+
+## ARCHIVOS PARA CREAR PDF MANUAL
+
+/documentacion/manual_tecnico/entidad_relacion.png
+/documentacion/manual_tecnico/manual_tecnico.aux
+/documentacion/manual_tecnico/manual_tecnico.fdb_latexmk
+/documentacion/manual_tecnico/manual_tecnico.fls
+/documentacion/manual_tecnico/manual_tecnico.synctex.gz
+/documentacion/manual_tecnico/manual_tecnico.tex
+

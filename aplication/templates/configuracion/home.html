@@ -1,0 +1,53 @@
+{% extends "aplication/base.html" %}
+{% load static %}
+{% block titulo %}
+Configuracion
+{% endblock%}
+
+{% block body %}
+{% include "venta/navbar.html" %}
+
+<div class="container-fluid position-relative">
+
+    <div class="row flex-nowrap">
+        <div class="col-auto col-lg-3 col-xl-2 px-sm-2 px-0 bg-danger ">
+		{% include "venta/sidebar.html" %}
+
+
+	<div class="container mt-5" style = "z-index:1045">
+
+		<h2>Zona Horaria</h2>
+
+		<div class="container">
+		
+			<form method="post" id="SearchForm" class="row align-items-end">
+			{% csrf_token %}
+				<input name="tipopost" type="text" value="zonahoraria" hidden>
+				<div class="col-sm-8 col-xl-5 form-group my-2">
+					<label class="my-3">Zona Horaria [4 - Hora de verano, 5 - Horario normal]</label>
+					<input id="DeltaHora" name="DeltaHora" type="number" class="form-control" min='4' max='5' value="{{ zonahoraria }}">
+				</div>
+				<div class="col-sm-8 col-xl-5 my-2 d-grid">
+					<button class="btn btn-block btn-danger">
+						Actualizar zona horaria
+					</button>
+				</div>
+			</form>
+		</div>
+
+		<h2 class="mt-5">Backups bd</h2>
+
+
+		<div class="container">
+			'Acá se listaran los backups de la base de datos'
+		</div>
+
+	</div>
+
+		</div>
+	</div>
+
+</div>
+
+{% endblock %}
+

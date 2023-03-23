@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.seguridad',
     'apps.venta',
     'apps.migracion',
+    'apps.configuracion',
     'colorfield',
 ]
 
