@@ -136,10 +136,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 if DEBUG:
+    SENDFILE_BACKEND = 'sendfile.backends.development'
     STATICFILES_DIRS =(BASE_DIR,'static')
 else:
     STATIC_ROOT=os.path.join(BASE_DIR,'static')
-
+    SENDFILE_BACKEND = 'sendfile.backends.nginx'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

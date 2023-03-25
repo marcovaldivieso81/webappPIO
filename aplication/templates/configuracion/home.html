@@ -35,11 +35,21 @@ Configuracion
 			</form>
 		</div>
 
-		<h2 class="mt-5">Backups bd</h2>
+		<h2 class="mt-5">Generar Backup bd</h2>
 
 
 		<div class="container">
-			'Acá se listaran los backups de la base de datos'
+
+			<form method="post" id="SearchForm" class="row align-items-end">
+			{% csrf_token %}
+				<input name="tipopost" type="text" value="backup" hidden>
+				<div class="col-sm-8 col-xl-5 my-2 d-grid">
+					<button class="btn btn-block btn-danger">
+						Crear backup de base de datos
+					</button>
+				</div>
+			</form>
+
 		</div>
 
 	</div>
