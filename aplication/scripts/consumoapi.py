@@ -54,7 +54,7 @@ def square_bookings(inicio,fin):
         lista_citas=[]
         for cita in response_decode['bookings']:
             #print(cita['start_at'])
-            cita['start_at']=ajusta_hora(cita['start_at'],-5)
+            cita['start_at']=ajusta_hora(cita['start_at'],-deltahora)
             lista_citas.append(cita)
         #print(lista_citas)
         #for cita in lista_citas:
