@@ -11,15 +11,11 @@ from datetime import timedelta
 from .conexion_db import conexion 
 
 connection=conexion()
-#print('Conexión exitosa a db')
 cursor = connection.cursor()
 sql = "SELECT * FROM configuracion_zonahoraria" 
 data = cursor.execute(sql)
 data = cursor.fetchone()
-#print('--------')
 deltahora = data[1]
-#print('--------')
-#connection.close()
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
