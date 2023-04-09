@@ -135,12 +135,24 @@ USE_TZ = True
 #STATIC_ROOT = os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
 
+## LAS LINEAS A CONTINUACION SE IMPORTAN PARA QUE PUEDA FUNCIONAR EL SENDFILE
+import django
+from django.utils.encoding import smart_str
+django.utils.encoding.smart_text = smart_str
+## SE FINALIZA IMPORTACION SE SMART_STR
+
 if DEBUG:
     SENDFILE_BACKEND = 'sendfile.backends.development'
+#    SENDFILE_BACKEND = 'sendfile.backends.nginx'
+#    SENDFILE_ROOT = os.path.join(BASE_DIR,'backups')
+#    SENDFILE_URL = '/backups'
     STATICFILES_DIRS =(BASE_DIR,'static')
 else:
     STATIC_ROOT=os.path.join(BASE_DIR,'static')
     SENDFILE_BACKEND = 'sendfile.backends.nginx'
+    SENDFILE_ROOT = os.path.join(BASE_DIR,'backups')
+    SENDFILE_URL = '/backups'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
