@@ -11,18 +11,25 @@
                 Save
             </button>
         </div>
-    
+
+<!-- ACA ESTABA FORM --> 
+    <div class="modal-body pt-0">
 <form id="addProdForm" method="post">
     {% csrf_token %}
 	<input type="hidden" name="IdPedido" id="pedido-id">
-    <div class="modal-body pt-0">
+
+
+
     <nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Summary</button>
-    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Product</button>
-  </div>
-</nav>
+		<div class="nav nav-tabs" id="nav-tab" role="tablist">
+			<button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Summary</button>
+			<button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Product</button>
+			<button class="nav-link" id="print-label-tab" data-bs-toggle="tab" data-bs-target="#print-label" type="button" role="tab" aria-controls="print-label" aria-selected="false">Print Labels</button>
+		</div>
+	</nav>
+
 <div class="tab-content" id="nav-tabContent">
+
     <!-- SUMMARY PRODUCT-->
     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
   <div class="mb-3 mt-3 row">
@@ -105,6 +112,7 @@
     </div>
   </div>
     </div>
+
     <!-- ADD PRODUCT -->
   <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
 <div class="row mt-3">
@@ -146,16 +154,54 @@
 	                <th class="col-lg-1 text-center">Delete</th>
 	            </tr>
 	        </thead>
-	        <tbody>
-				               
+	        <tbody>				               
 	        </tbody>
 	    </table>
 	    </div>
 	</div>
 </div>
+<!-- FIN ADD PRODUCT -->
 </div> 
-</div>
 </form>
+
+<div class="tab-pane fade" id="print-label" role="tabpanel" aria-labelledby="print-label-tab" tabindex="0">
+	<div class="row mb-3 mt-3 mx-3">
+	<form method="post" action="{% url 'print_labels' %}">
+		{% csrf_token %}
+		<div class="mb-3 mt-3 row">
+			<label class="col-sm-3 col-form-label"> # Labels</label>
+			<div class="col-sm-3">
+				<input name="copias" type="number" class="form-control" value="1" min="1">
+			</div>
+			<input name="idPedido" id="print-id-pedido" hidden>
+			<div class="col-sm-3">
+				<button type="submit" id='print-label-button' class="btn btn-success">
+					<i class="bi bi-printer"></i>
+					Print
+				</button>
+			</div>
+		</div>
+	</form>
+
+<h4>Vista previa:</h4>
+
+<div class="row justify-content-center">
+	<div class="col-auto">
+		<div class="card" style="width: 25rem;">
+			<div class="card-body">
+				<h5 class="card-title" id="nombre-cliente-card"></h5>
+				<div id="notas-card"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	</div>
+</div>
+
+</div>
+<!-- ACA ESTABA FORM -->
+
     </div>
   </div>
 </div>

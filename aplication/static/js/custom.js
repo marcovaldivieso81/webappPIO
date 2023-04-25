@@ -136,18 +136,22 @@ Filas.forEach((fila) => {
 			.then(data=>{
 			datos_pedido=data
 
-			document.getElementById('pedido-id').value=selectedRow
-			document.getElementById('pedido-notas').value=datos_pedido.Notas
-			document.getElementById('pedido-observacion').value=datos_pedido.Observacion
+			document.getElementById('pedido-id').value = selectedRow
+			document.getElementById('pedido-notas').value = datos_pedido.Notas
+			document.getElementById('pedido-observacion').value = datos_pedido.Observacion
 			document.getElementById('pedido-nombrecliente').value=datos_pedido.NombreCliente
-			document.getElementById('pedido-telefono').value=datos_pedido.Telefono
-			document.getElementById('pedido-direccion').value=datos_pedido.Direccion
-			document.getElementById('pedido-fechahora').value=datos_pedido.FechaHora
-			document.getElementById('pedido-cancelado').checked=datos_pedido.Cancelado
-			document.getElementById('pedido-servicios').checked=datos_pedido.Servicio
-            document.getElementById('confirmed-by-customer').checked=datos_pedido.Confirmed_by_customer
-            document.getElementById('in-production').checked=datos_pedido.In_Production
+			document.getElementById('pedido-telefono').value = datos_pedido.Telefono
+			document.getElementById('pedido-direccion').value = datos_pedido.Direccion
+			document.getElementById('pedido-fechahora').value = datos_pedido.FechaHora
+			document.getElementById('pedido-cancelado').checked = datos_pedido.Cancelado
+			document.getElementById('pedido-servicios').checked = datos_pedido.Servicio
+            document.getElementById('confirmed-by-customer').checked = datos_pedido.Confirmed_by_customer
+            document.getElementById('in-production').checked = datos_pedido.In_Production
 
+			document.getElementById('notas-card').innerHTML = datos_pedido.Notas.replace(/(\r\n|\n|\r)/gm,"<br>")
+			document.getElementById('nombre-cliente-card').innerHTML = datos_pedido.NombreCliente
+
+			document.getElementById('print-id-pedido').value = selectedRow
 
 			/*for(let servicio of document.getElementById('pedido-servicios').children){
 				if(servicio.value == datos_pedido.Servicio){

@@ -7,10 +7,21 @@ from django.db.models import Q ## ESTO SIRVE PARA HACER BÚSQUEDA
 from datetime import date, timedelta
 import json
 from openpyxl import Workbook
+## LIBRERIAS PARA LA CREACION DE PDF
+import os
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import cm
+## LIBRERIAS PROPIAS
 from .models import Pedido, Variante, Articulo, Estado, Servicio, pedido_variante, PedidoBitacora
 #from apps.seguridad.models import Usuario 
 from scripts.utilidades_db import guarda_citas, guarda_articulos
+
+
 # Create your views here.
+
+
 
 @login_required
 def home(request): #acercade
@@ -124,6 +135,35 @@ def home(request): #acercade
     return render(request,'venta/home.html',ctx)
 
 @login_required
+def print_labels(request):
+    IdPedido = request.POST['idPedido']
+    ContenidoPedido=Pedido.objects.get(IdPedidoSquare=IdPedido)
+    Notas = ContenidoPedido.Notas
+    NombreCliente = ContenidoPedido.NombreCliente
+    
+    response = HttpResponse(content_type = 'application/pdf')
+    response['Content-Disposition'] = f'attachment; filename = {IdPedido}+.pdf'
+    buffer = BytesIO()
+
+    c = canvas.Canvas(buffer,pagesize = A4)
+    
+    #Header
+    c.setLineWidth(.3)
+    c.setFont('Helvetica',22)
+    c.drawString(30,750,NombreCliente)
+    c.setFont('Helvetica',12)
+    c.drawString(30,735,Notas)
+
+    c.save()
+
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+
+    return response
+
+
+@login_required
 def api_productos(request):
     productos=Variante.objects.all()
     lista_productos=[]
@@ -157,6 +197,7 @@ def api_productos(request):
                 'Servicio':ValorServicio,
                 'ListaPedidos':pedidos
             }
+        #print(ctx)
     return JsonResponse(ctx)
 
 
