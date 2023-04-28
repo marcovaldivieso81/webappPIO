@@ -152,7 +152,7 @@ def print_labels(request):
     
     for copia in range(copias):
         c.setLineWidth(.3)
-        c.setFont('Helvetica',22)
+        c.setFont('Helvetica',18)
         c.drawString(30,120,NombreCliente)
         c.setFont('Helvetica',12)
     
