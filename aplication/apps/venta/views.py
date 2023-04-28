@@ -12,7 +12,8 @@ import os
 from io import BytesIO
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.units import cm
+from reportlab.lib.units import cm, inch
+#from reportlab.platypus import PageBreak
 ## LIBRERIAS PROPIAS
 from .models import Pedido, Variante, Articulo, Estado, Servicio, pedido_variante, PedidoBitacora
 #from apps.seguridad.models import Usuario 
@@ -134,25 +135,43 @@ def home(request): #acercade
             'estados':estados}
     return render(request,'venta/home.html',ctx)
 
+
 @login_required
 def print_labels(request):
     IdPedido = request.POST['idPedido']
+    copias = int(request.POST['copias'])
     ContenidoPedido=Pedido.objects.get(IdPedidoSquare=IdPedido)
     Notas = ContenidoPedido.Notas
     NombreCliente = ContenidoPedido.NombreCliente
-    
+    print(request.POST)
     response = HttpResponse(content_type = 'application/pdf')
     response['Content-Disposition'] = f'attachment; filename = {IdPedido}+.pdf'
     buffer = BytesIO()
 
-    c = canvas.Canvas(buffer,pagesize = A4)
+    c = canvas.Canvas(buffer,pagesize = (3.9*inch,2.4*inch))
     
+    for copia in range(copias):
+        c.setLineWidth(.3)
+        c.setFont('Helvetica',22)
+        c.drawString(30,120,NombreCliente)
+        c.setFont('Helvetica',12)
+    
+        textobject = c.beginText(30, 100  - 2 )
+        for nota in Notas.splitlines(False):
+            textobject.textLine(nota.rstrip())
+        c.drawText(textobject)
+        c.showPage()
+
     #Header
-    c.setLineWidth(.3)
-    c.setFont('Helvetica',22)
-    c.drawString(30,750,NombreCliente)
-    c.setFont('Helvetica',12)
-    c.drawString(30,735,Notas)
+#    c.setLineWidth(.3)
+#    c.setFont('Helvetica',22)
+#    c.drawString(30,120,NombreCliente)
+#    c.setFont('Helvetica',12)
+    
+#    textobject = c.beginText(30, 100  - 2 )
+#    for nota in Notas.splitlines(False):
+#        textobject.textLine(nota.rstrip())
+#    c.drawText(textobject)
 
     c.save()
 
