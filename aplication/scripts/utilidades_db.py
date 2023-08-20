@@ -68,7 +68,7 @@ def guarda_citas(inicio,fin,usuario='system'):
             ## iteración para eliminar valores de servicios no permitidos
             valores_permitidos = [1658428294592, 1650382159084]
             ## seria importante poder obtener los valores permitidos haciendo una consulta a bd
-            lista = nueva_lista = [diccionario for diccionario in lista if diccionario['Servicios'] in valores_permitidos]
+            #lista = nueva_lista = [diccionario for diccionario in lista if diccionario['Servicios'] in valores_permitidos]
 
             connection=conexion()
             #print('Conexión exitosa a db')
@@ -106,6 +106,8 @@ def guarda_citas(inicio,fin,usuario='system'):
                     )''',item)
                 #print('Cargando dato ...')
                 ## ACA SE ACTUALIZA LOS PEDIDOS
+                if item['Servicios'] not in valores_permitidos:
+                    continue
                 cursor2.execute('''INSERT INTO 
                         venta_pedido(
                         "IdPedidoSquare",
