@@ -65,6 +65,11 @@ def guarda_citas(inicio,fin,usuario='system'):
     lista = asyncio.run(obtiene_lista_citas(inicio,fin))#    
     if len(lista)>0:
         try:
+            ## iteración para eliminar valores de servicios no permitidos
+            valores_permitidos = [1658428294592, 1650382159084]
+            ## seria importante poder obtener los valores permitidos haciendo una consulta a bd
+            lista = nueva_lista = [diccionario for diccionario in lista if diccionario['Servicios'] in valores_permitidos]
+
             connection=conexion()
             #print('Conexión exitosa a db')
             cursor = connection.cursor()
